@@ -1,8 +1,8 @@
 #include<hspos.h>
 #ifndef MENU
-#defefine MENU
+#define MENU
 #define                 VIEW            1
 #define                 CLS             2
-unsigned char MenuChoose();
-
+unsigned char  MenuChoose();
+void Examine();
 #endif

@@ -3,6 +3,7 @@
 #include "CARD.H"
 #include "User.H"
 #include "LoginWay.H"
+#include "Menu.H"
 #ifndef MAIN
 #define MAIN
 

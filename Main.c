@@ -84,6 +84,20 @@ int main()
         putstr("用户非法");
     } 
     key(0);
+    unsigned char choose_value;
+    while(1)
+    {
+      choose_value = MenuChoose();
+      if(choose_value == CLS)
+      {
+         break;
+      }
+      else if(choose_value == VIEW)
+      {
+           Examine();
+      }
+    }
+    key(0);
     return 1;
 }
 
