@@ -8,7 +8,7 @@
 #define           IP_ADDRESS                0X40
 #define           PORT_ADDRESS              0X30
 #define           IP                        "122.225.88.87"   //初始化IP 
-#define           PORT                      "9315"            //初始化PORT 
+#define           PORT                      "8000"            //初始化PORT 
 
 unsigned char NET_IP[IP_LENGTH];            //用来存储修改后的IP 
 unsigned char NET_PORT[PORT_LENGTH];        //用来存储修改后的PORT 

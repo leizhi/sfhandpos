@@ -1,8 +1,8 @@
 #include "User.h"
 void Init()
 {
-     memset(username,0,20);
-     memset(password,0,20);
+     memset(username,0x20,20);
+     memset(password,0x20,20);
 }
 /***********************
 *函数名：GetUserInformation 
@@ -13,6 +13,7 @@ void Init()
 void GetUserInformation()
 {
          cls();
+         Init();
          uchar keyvalue;            //接收键盘按键值 
          uchar x,y;                 //获取光标位置
          uchar index = 0;           //记录存储密码的长度 
@@ -33,6 +34,9 @@ void GetUserInformation()
          putstr("用户名 :");
          moveto(8,10);
          putstr(username);
+         
+         
+         
          moveto(10,10);             //开始输出密码位置 
 
          x = 10;
@@ -91,10 +95,11 @@ void GetUserInformation()
          //测试用 
        
          cls();
-         putstr(username);
+         /*putstr(username);
          putstr("\n");
          putstr(password);  
          key(0); 
+         */
         //测试用
 
 }

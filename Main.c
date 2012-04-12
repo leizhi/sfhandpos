@@ -38,6 +38,7 @@ int main()
     }
     else
     {
+                
                  err = LoginChoose();
                 if(err == 1)
                 {
@@ -49,10 +50,10 @@ int main()
                                return 1; 
                         }
                         cls();
-                        putstr(username);
-                        putstr("\n");
-                        putstr(password);
-                        key(0);
+                        //putstr(username);
+                        //putstr("\n");
+                        //putstr(password);
+                        //key(0);
                         
                  
                 }

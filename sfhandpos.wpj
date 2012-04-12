@@ -1,7 +1,7 @@
 [Project]
 FileName=sfhandpos.wpj
 Name=sfhandpos
-UnitCount=16
+UnitCount=14
 Type=0
 Ver=1
 ObjFiles=
@@ -33,16 +33,6 @@ CompilerSet=0
 CompilerSettings=
 
 [Unit1]
-FileName=sfhandpos.c
-CompileCpp=0
-Folder=
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit2]
 FileName=CARD.c
 CompileCpp=0
 Folder=sfhandpos
@@ -52,7 +42,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit3]
+[Unit2]
 FileName=CARD.H
 CompileCpp=0
 Folder=sfhandpos
@@ -62,7 +52,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit4]
+[Unit3]
 FileName=GPRS.c
 CompileCpp=0
 Folder=sfhandpos
@@ -72,7 +62,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit5]
+[Unit4]
 FileName=GPRS.H
 CompileCpp=0
 Folder=sfhandpos
@@ -82,7 +72,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit6]
+[Unit5]
 FileName=IsLockUser.c
 CompileCpp=0
 Folder=sfhandpos
@@ -92,7 +82,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit7]
+[Unit6]
 FileName=IsLockUser.h
 CompileCpp=0
 Folder=sfhandpos
@@ -102,7 +92,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit8]
+[Unit7]
 FileName=LoginWay.c
 CompileCpp=0
 Folder=sfhandpos
@@ -112,7 +102,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit9]
+[Unit8]
 FileName=LoginWay.h
 CompileCpp=0
 Folder=sfhandpos
@@ -122,7 +112,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit10]
+[Unit9]
 FileName=Main.c
 CompileCpp=0
 Folder=sfhandpos
@@ -132,7 +122,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit11]
+[Unit10]
 FileName=Main.h
 CompileCpp=0
 Folder=sfhandpos
@@ -142,7 +132,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit12]
+[Unit11]
 FileName=NetSetting.c
 CompileCpp=0
 Folder=sfhandpos
@@ -152,7 +142,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit13]
+[Unit12]
 FileName=NetSetting.h
 CompileCpp=0
 Folder=sfhandpos
@@ -163,7 +153,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit14]
-FileName=Test.c
+FileName=User.h
 CompileCpp=0
 Folder=sfhandpos
 Compile=1
@@ -173,7 +163,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit15]
-FileName=User.c
+FileName=User.h
 CompileCpp=0
 Folder=sfhandpos
 Compile=1
@@ -209,4 +199,14 @@ OriginalFilename=
 ProductName=
 ProductVersion=
 AutoIncBuildNr=0
+
+[Unit13]
+FileName=User.c
+CompileCpp=0
+Folder=sfhandpos
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
 

@@ -16,9 +16,10 @@ int InitGPRS()
 
   cls();
   InitNetSetting();
-  putstr(NET_IP);
+ /* putstr(NET_IP);
   putstr(NET_PORT);
   key(0);
+  */
   putstr("初始化,请稍候...\n");
   putstr("正在打开GPRS模块\n");
   while(1)
@@ -49,7 +50,6 @@ int InitGPRS()
        }		  
 	}
  putstr("打开GPRS模块：OK\n");		
-	
  putstr("正在检测SIM卡\n");
  i =0;
   while(1) 
@@ -95,7 +95,7 @@ int InitGPRS()
     {
         putstr("支持GPRS：OK\n");
     } 
-    
+    delay(10000);
     cls();
     putstr("检测GPRS网络状态\n");
     err = WmodeCheckGPRSstatus(s);//检查GPRS网络状态
@@ -124,8 +124,7 @@ int InitGPRS()
         //低于10 提示用户信号弱
          
     }
-    key(0);
-        putstr("正在设置网络IP和端口...\n") ;
+    putstr("正在设置网络IP和端口...\n") ;
     err=WNetSeting("2","5001",NET_IP,NET_PORT);//网络端口设置 
     if(err != 0)
     {
@@ -146,7 +145,7 @@ int InitGPRS()
     {
         putstr("网络参数设置: OK\n");
     } 
-    
+    delay(10000);
     cls(); 
     putstr("正在设置网络连接...\n");
     err =   WNetCont("1","IP","CMNET","0,0");     //网络连接设置
@@ -182,6 +181,5 @@ int InitGPRS()
         putstr("\n网络连接成功");
     } 
     */
-    key(0); 
     return INITGPRSSUCCESS;    
 }

@@ -16,7 +16,6 @@ char InitCard()
      cls();
     // OpenCard();
      putstr("正在寻卡请求...\n");
-     key(0); 
             err = mif_request(IDLE ,atq);//寻卡请求 IDLE为单卡模式 ALL 为多卡模式 
             if( err != 0)
             {  
@@ -59,7 +58,6 @@ char InitCard()
             {
                 putstr("装载密码到扇区：OK\n");
             } 
-            key(0);
             return   INITCARDSUCCESS;
 }
 char OpenCard()
@@ -68,7 +66,6 @@ char OpenCard()
     Initialization();
     cls();//清除屏幕
     putstr("初始化读卡模块...\n");
-    key(0);
     int i = 0; 
     while(1)
          {
@@ -93,7 +90,6 @@ char OpenCard()
               }
          }
     putstr("初始化读卡模块：OK\n");
-    key(0);
     return   INITCARDSUCCESS;  
 }
 
@@ -107,8 +103,7 @@ char ReadUserInformation(unsigned char* name ,unsigned char * passwd)
           if(err == INITCARDSUCCESS)  //初始化卡片成功 开始读取用户信息 
           {
              //测试 
-             cls();
-             putstr("准备读取用户信息\n");
+              cls();
               err = mif_authentication(1,1,cardsn);//验证扇区密码
               if( err != 0)
               {
@@ -125,9 +120,9 @@ char ReadUserInformation(unsigned char* name ,unsigned char * passwd)
                   else
                   {
                       putstr("用户名为：");
-                      putstr(name);
+                     // putstr(name);
               
-                      putstr("\n");
+                      //putstr("\n");
                   }
                   err = mif_read(6,passwd);
                   if( err != 0)
@@ -137,18 +132,17 @@ char ReadUserInformation(unsigned char* name ,unsigned char * passwd)
                   else
                   { 
                       putstr("密码：");
-                      putstr(passwd);
-                      putstr("\n");
+                     // putstr(passwd);
+                     // putstr("\n");
                   } 
-                  key(0);
-                  return 0;
+                  return READUSERINFORMATIONSUCCESS;
               }
-             key(0);
-             return 1;
+             return READUSERINFORMATIONERROR;
           }
           else
           {
                 cls();
+                bell(40);
                 putstr("无卡，请核对\n");
                 putstr("按清除键【CLS】退出\n");
                 putstr("按其他任意键继续\n");
