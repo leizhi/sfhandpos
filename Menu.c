@@ -66,10 +66,12 @@ void Examine()
      key(0);
       while(1)
      {
+             mif_close();
+             OpenCard();
              err = InitCard();
              if(err == INITCARDSUCCESS )
              {
-                    putstr("initcard success");
+                putstr("initcard success");
                  err = mif_authentication(1,0,cardsn);
                  if( err != 0)
                  {
@@ -96,8 +98,9 @@ void Examine()
              }
              else
              {
-                 putstr("初始化卡错误");
-               cls();
+            
+                cls();
+                putstr("初始化卡错误");
                 bell(40);
                 putstr("无卡，请核对\n");
                 putstr("按清除键【CLS】退出\n");
