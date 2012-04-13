@@ -71,6 +71,9 @@ void Examine()
      unsigned char mykey;
      unsigned char cardnum_length;//序列号长度 
      unsigned char send_buffer[30];
+     unsigned char query_information[1000];
+     unsigned short query_length =1000;
+     memset(query_information,0,1000);
      memset(send_buffer,0,30);
     
      cls();
@@ -135,19 +138,20 @@ void Examine()
                           send_buffer[cardnum_length]= '#';
                           cardnum_length++;
                           cls();
+                          
                           putstr(send_buffer);
                           key(0);
                           
                           unsigned short send_length = cardnum_length;
                           
-                          err = WNetConnect(20000);
-                          if ( err != 0)
+                          //err = WNetConnect(20000);
+                          /*if ( err != 0)
                           {
                              putstr("连接网络超时\n");
                              return ;  
                           }
                           else
-                          {
+                          {*/
                               err = WNetTxd(send_buffer,send_length);
                               if( err != 0)
                               {
@@ -157,10 +161,24 @@ void Examine()
                               {
                                    //然后接受返回信息 
                                    putstr("准备接受数据\n");
-                                   
+                                   err = WNetRxd(query_information,&query_length,10000);
+                                   putstr(" 接收数据完成\n"); 
+                                   if(err != 0)
+                                   {
+                                          putstr("an err in recv\n");
+                                          key(0);
+                                          return ;
+                                   }
+                                   else
+                                   {
+                                       putstr(query_information);
+                                       key(0);
+                                   }
+                                   WmodeClose();
+                                   putstr("\nwnode clsoe\n");
                                    key(0);
                               }
-                          }
+                         // }
                           
                           
                         

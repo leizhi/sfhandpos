@@ -171,6 +171,7 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
             memset(recv_buffer,0,200);
             unsigned short recv_len;
             err = WNetRxd(recv_buffer,&recv_len,10000);
+            
             if(err != 0)
             {
                    putstr("接收错误");
@@ -182,12 +183,14 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
                 //判断返回信息 
                 putstr(recv_buffer);
                 key(0);
+                
                 return  CHECKSUCCESS;
             } 
 
      putstr(send_buffer);
      key(0);
      return CHECKSUCCESS;
+     
     //err = WNetTxd(send_buffer,5+n+m);
     /*if( err != 0)
     {
