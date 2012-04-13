@@ -152,9 +152,7 @@ void Examine()
                           }
                           else
                           {*/
-                              err = WNetTxd(send_buffer,send_length);
-                              if( err != 0)
-                              {
+                            
                                   unsigned char send_num =0;
                                   while(send_num<2)
                                   {
@@ -191,29 +189,7 @@ void Examine()
                                            putstr("\nwnode clsoe\n");
                                            key(0);
                                       }
-                              }
-                              else
-                                      {
-                                           //然后接受返回信息 
-                                           putstr("准备接受数据\n");
-                                           err = WNetRxd(query_information,&query_length,10000);
-                                           putstr(" 接收数据完成\n"); 
-                                           if(err != 0)
-                                           {
-                                                  putstr("an err in recv\n");
-                                                  key(0);
-                                                  return ;
-                                           }
-                                           else
-                                           {
-                                               putstr(query_information);
-                                               key(0);
-                                           }
-                                           WmodeClose();
-                                           putstr("\nwnode clsoe\n");
-                                           key(0);
-                                      }
-                              
+                             
                          // }
                           
                           
