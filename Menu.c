@@ -91,7 +91,6 @@ void Examine()
              err = InitCard();
              if(err == INITCARDSUCCESS )
              {
-                putstr("initcard success");
                  err = mif_authentication(1,1,cardsn);
                  if( err != 0)
                  {
@@ -101,8 +100,6 @@ void Examine()
                  else
                  {
                      memset(cardnum,0,20);
-                     putstr("cardnum read\n");
-                     key(0);
                      err = mif_read(4,cardnum);
 
                      if( err != 0)
@@ -113,8 +110,6 @@ void Examine()
                      else
                      {
                          //发送数据到服务器
-                        putstr("封装cardnum\n");
-                        key(0); 
                           cardnum_length = 0;
                          //封装cardsn
                           send_buffer[0]= '*';
@@ -139,9 +134,10 @@ void Examine()
                           
                           send_buffer[cardnum_length]= '#';
                           cardnum_length++;
-                          
+                          cls();
                           putstr(send_buffer);
                           key(0);
+                          
                           unsigned short send_length = cardnum_length;
                           
                           err = WNetConnect(20000);
