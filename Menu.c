@@ -1,17 +1,26 @@
 #include"Menu.H"
 #include "CARD.H"
 #include "User.H"
+#include<gprs_api.h>
 unsigned char  MenuChoose()
 {
      unsigned char key_value; 
      unsigned char flag =0;
+     static int index = 0;
+     static unsigned char name_temp[20];
+     if(index ==0)
+     { 
+        
+         strcpy(name_temp,username);
+         index = 1;
+     }
        cls();
        
      while(1)
      {
          moveto(4,2);
          putstr("欢迎您：");
-         putstr(username); 
+         putstr(name_temp); 
          moveto(6,4);
          putstr("请选择所需操作：");
          moveto(8,1);
@@ -58,21 +67,32 @@ unsigned char  MenuChoose()
 }
 void Examine()
 {
-     char err ;
+     int err ;
      unsigned char mykey;
+     unsigned char cardnum_length;//序列号长度 
+     unsigned char send_buffer[30];
+     memset(send_buffer,0,30);
+    
      cls();
      moveto(1,1);
-     putstr("examing 。。。\n"); 
-     key(0);
       while(1)
      {
-             mif_close();
-             OpenCard();
+             err = mif_close();
+             if(err != 0)
+             {
+                    return ;
+             }
+             err = OpenCard();
+             if(err != 0)
+             {
+                    putstr("打开读卡模块错误\n");
+                    return ;
+             }
              err = InitCard();
              if(err == INITCARDSUCCESS )
              {
                 putstr("initcard success");
-                 err = mif_authentication(1,0,cardsn);
+                 err = mif_authentication(1,1,cardsn);
                  if( err != 0)
                  {
                      putstr("验证密码错误");
@@ -80,17 +100,74 @@ void Examine()
                  }
                  else
                  {
-                     err = mif_read(0,cardsn);
+                     memset(cardnum,0,20);
+                     putstr("cardnum read\n");
+                     key(0);
+                     err = mif_read(4,cardnum);
+
                      if( err != 0)
                      {
                          putstr("读取数据错误");
+                         key(0);
                      }
                      else
                      {
-                         putstr(cardsn);
-                         key(0);
                          //发送数据到服务器
-                         //然后接受返回信息 
+                        putstr("封装cardnum\n");
+                        key(0); 
+                          cardnum_length = 0;
+                         //封装cardsn
+                          send_buffer[0]= '*';
+                          cardnum_length++;
+                          send_buffer[1]= '2';
+                          cardnum_length++;
+                           int k =0;
+                          while(1)
+                          {
+                                 
+                                  if(cardnum[k]== 0)
+                                  {
+                                     break;
+                                  }
+                                  else
+                                  {
+                                      send_buffer[cardnum_length]=cardnum[k];
+                                      cardnum_length++;
+                                  }
+                                  k++;
+                          } 
+                          
+                          send_buffer[cardnum_length]= '#';
+                          cardnum_length++;
+                          
+                          putstr(send_buffer);
+                          key(0);
+                          unsigned short send_length = cardnum_length;
+                          
+                          err = WNetConnect(20000);
+                          if ( err != 0)
+                          {
+                             putstr("连接网络超时\n");
+                             return ;  
+                          }
+                          else
+                          {
+                              err = WNetTxd(send_buffer,send_length);
+                              if( err != 0)
+                              {
+                                  return ;
+                              }
+                              else
+                              {
+                                   //然后接受返回信息 
+                                   putstr("准备接受数据\n");
+                                   
+                                   key(0);
+                              }
+                          }
+                          
+                          
+                        
                          break;
                      } 
                  }

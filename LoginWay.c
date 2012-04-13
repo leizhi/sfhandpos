@@ -68,6 +68,7 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
     int name_length=0;
     int passwd_length=0;
     int i=0;
+    putstr("正在验证信息，请稍等\n");
     while(1)
     {
        if((name[i] == 0x20)||(name[i]==0X00))
@@ -78,10 +79,17 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
       i++;
     } 
     i =0;
-    while(passwd[i]!=0x20)
+    while(1)
     {
-        passwd_length++;
-        i++;
+        if((passwd[i]==0x20)||(passwd[i]==0x00 ))
+        {
+           break;
+        }
+        else
+        {
+            passwd_length++;
+            i++;
+        }
     }
     uchar n_l[20];
     uchar p_l[20];
@@ -131,10 +139,13 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
            send_buffer[len]=passwd[m];
            len++;
        }
-      // putstr("完成密码封装\n");
+       //putstr("完成密码封装\n");
+      // key(0);      
        send_buffer[len]='#';
        len++;
-       putstr("正在验证信息，请稍等\n");
+       //putstr(send_buffer);
+      // key(0);
+     
        int num =0;//尝试发送次数
        while(1)
        { 
@@ -169,6 +180,8 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
             else
             {
                 //判断返回信息 
+                putstr(recv_buffer);
+                key(0);
                 return  CHECKSUCCESS;
             } 
 
