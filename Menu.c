@@ -159,7 +159,7 @@ void Examine()
                                     putstr("发送失败，再次尝试发送");
                                     send_num++;
                                      err = WNetTxd(send_buffer,send_length);
-                                     if( err ==0)
+                                     if( err == 0)
                                      {
                                          break; 
                                      }

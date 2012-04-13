@@ -6,8 +6,8 @@ CC   = arm-elf-gcc.exe
 AR  = arm-elf-ar.exe
 LD   = arm-elf-ld.exe
 OBJCOPY   = arm-elf-objcopy.exe
-OBJ  = sfhandpos.o CARD.o GPRS.o IsLockUser.o LoginWay.o Main.o NetSetting.o Test.o User.o
-LINKOBJ  = sfhandpos.o CARD.o GPRS.o IsLockUser.o LoginWay.o Main.o NetSetting.o Test.o User.o
+OBJ  = CARD.o GPRS.o IsLockUser.o LoginWay.o Main.o NetSetting.o User.o Menu.o
+LINKOBJ  = CARD.o GPRS.o IsLockUser.o LoginWay.o Main.o NetSetting.o User.o Menu.o
 LIBS =   
 INCS = 
 CXXINCS = 
@@ -24,9 +24,6 @@ all: sfhandpos.cof
 clean: 
 	${RM} $(OBJ) $(BIN)
 
-
-sfhandpos.o: sfhandpos.c
-	$(CC) $(CFLAGS) -c sfhandpos.c -o sfhandpos.o
 
 CARD.o: CARD.c
 	$(CC) $(CFLAGS) -c CARD.c -o CARD.o
@@ -46,11 +43,11 @@ Main.o: Main.c
 NetSetting.o: NetSetting.c
 	$(CC) $(CFLAGS) -c NetSetting.c -o NetSetting.o
 
-Test.o: Test.c
-	$(CC) $(CFLAGS) -c Test.c -o Test.o
-
 User.o: User.c
 	$(CC) $(CFLAGS) -c User.c -o User.o
+
+Menu.o: Menu.c
+	$(CC) $(CFLAGS) -c Menu.c -o Menu.o
 
 $(BIN): $(OBJ)
 	$(LD) C:/HandPos/IDE/crt0.o $(LINKOBJ)  -o sfhandpos.cof $(LIBS) -T C:/HandPos/IDE/ldscript
