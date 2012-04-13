@@ -1,7 +1,7 @@
 [Project]
 FileName=sfhandpos.wpj
 Name=sfhandpos
-UnitCount=14
+UnitCount=16
 Type=0
 Ver=1
 ObjFiles=
@@ -163,9 +163,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit15]
-FileName=User.h
+FileName=Menu.h
 CompileCpp=0
-Folder=sfhandpos
+Folder=
 Compile=1
 Link=1
 Priority=1000
@@ -173,9 +173,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit16]
-FileName=User.h
+FileName=Menu.c
 CompileCpp=0
-Folder=sfhandpos
+Folder=
 Compile=1
 Link=1
 Priority=1000

@@ -9,8 +9,8 @@
 //修改方向，读取某位后判断地址是否修改过 没有则不重新写入  否则将新的值写入相应地址 待修改 
 int InitNetSetting()
 {
-    int ip_err;
-    int port_err; 
+    //int ip_err;
+   // int port_err; 
      memset(NET_IP,0,IP_LENGTH);
      memset(NET_PORT,0,PORT_LENGTH);
      strcpy(NET_IP,IP);
