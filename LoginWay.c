@@ -109,7 +109,7 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
            putstr("InitGPRS success\n");
     }
     //连接网络
-     err = WNetConnect(10000);
+     err = WNetConnect(65535);
      if(err != 0)  //连接网络超时 
      {
             putstr("网络连接超时");

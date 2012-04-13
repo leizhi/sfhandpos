@@ -156,12 +156,19 @@ void Examine()
                                   unsigned char send_num =0;
                                   while(send_num<2)
                                   {
-                                    putstr("发送失败，再次尝试发送");
-                                    send_num++;
+                                    
                                      err = WNetTxd(send_buffer,send_length);
                                      if( err == 0)
                                      {
                                          break; 
+                                     }
+                                     else
+                                     {
+                                            cls();
+                                            printf("%d",send_num);
+                                            putstr("发送失败，再次尝试发送\n");
+                                            key(0);
+                                            send_num++;
                                      }
                                   }
                                   if(send_num ==2)
