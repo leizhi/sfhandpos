@@ -168,7 +168,7 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
      
             //接收验证信息 
             unsigned char recv_buffer[200];
-            memset(recv_buffer,0,200);
+            memset(recv_buffer,0,3000);
             unsigned short recv_len;
             err = WNetRxd(recv_buffer,&recv_len,10000);
             
@@ -181,6 +181,7 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
             else
             {
                 //判断返回信息 
+                putstr("接收数据为：");
                 putstr(recv_buffer);
                 key(0);
                 

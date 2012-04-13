@@ -145,6 +145,7 @@ void Examine()
                           unsigned short send_length = cardnum_length;
                           
                           //err = WNetConnect(20000);
+                         
                           /*if ( err != 0)
                           {
                              putstr("Á¬½ÓÍøÂç³¬Ê±\n");

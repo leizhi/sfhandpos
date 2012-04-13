@@ -21,6 +21,12 @@ int InitSystem()
         }
     }
 } 
+void CloseSystem()
+{
+     int err ;
+     err = mif_close();                    //关闭读卡模块 
+     err = WmodeClose();                   //关闭GPRS模块 
+} 
 int main()
 {
     int err=0 ;
@@ -82,6 +88,9 @@ int main()
     else
     {
         putstr("用户非法");
+        //退出处理
+        CloseSystem(); 
+         
     } 
     key(0);
     unsigned char choose_value;
@@ -97,7 +106,6 @@ int main()
            Examine();
       }
     }
-    key(0);
     return 1;
 }
 
