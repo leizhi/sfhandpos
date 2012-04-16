@@ -25,7 +25,7 @@ void CloseSystem()
 {
      int err ;
      err = mif_close();                    //关闭读卡模块 
-     err = WmodeClose();                   //关闭GPRS模块 
+    // err = WmodeClose();                   //关闭GPRS模块 
 } 
 int main()
 {
@@ -82,11 +82,11 @@ int main()
     
     //验证用户信息
     err = CheckUser(username,password);
-   // err = CHECKSUCCESS;
+    //err = CHECKSUCCESS;
     printf("err is %d",err);
     putstr("验证成功\n");
     key(0); 
-    if(err == CHECKSUCCESS)
+    if(err == 0)
     {
            putstr("用户合法\n");
     }
@@ -115,6 +115,7 @@ int main()
       }
     }
     key(0);
+    
     return 1;
 }
 

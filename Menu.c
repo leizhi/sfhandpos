@@ -70,11 +70,11 @@ void Examine()
      int err ;
      unsigned char mykey;
      unsigned char cardnum_length;//序列号长度 
-     unsigned char send_buffer[30];
+     unsigned char send_buffer[100];
      unsigned char query_information[5000];
      unsigned short query_length;
-     memset(query_information,0,1000);
-     memset(send_buffer,0,30);
+     memset(query_information,0,5000);
+     memset(send_buffer,0,100);
     
      cls();
      moveto(1,1);
@@ -106,7 +106,7 @@ void Examine()
                  }
                  else
                  {
-                     memset(cardnum,0,20);
+                     memset(cardnum,0,40);
                      err = mif_read(4,cardnum);
 
                      if( err != 0)
@@ -152,13 +152,14 @@ void Examine()
                           key(0);
                           
                           unsigned short send_length = cardnum_length;
-                         
-                         if ( err != 0)
+
+                         /*if ( err != 0)
                           {
                              putstr("连接网络超时\n");
                              key(0);
                              return ;  
                           }
+                          */
                           /*else
                           {*/
                                  

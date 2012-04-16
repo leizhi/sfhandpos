@@ -5,5 +5,5 @@
 #define                 CLS             2
 unsigned char  MenuChoose();
 void Examine();
-unsigned char cardnum[20];
+unsigned char cardnum[40];
 #endif

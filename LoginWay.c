@@ -95,21 +95,13 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
     uchar p_l[20];
     itos(name_length,n_l);
     itos(passwd_length,p_l);
-    /*putstr("用户名长度\n");
-    putstr(n_l);
-    putstr("密码长度\n");
-    putstr(p_l);
-    */
-    //WmodeClose();
-    
-    //key(0);
-    //err = InitGPRS();
     if(err ==0)
     {
            putstr("InitGPRS success\n");
     }
     //连接网络
-     err = WNetConnect(65535);
+     err = WNetConnect(50000);
+     
      if(err != 0)  //连接网络超时 
      {
             putstr("网络连接超时");
@@ -169,7 +161,7 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
        }
      
             //接收验证信息 
-            unsigned char recv_buffer[200];
+            unsigned char recv_buffer[3000];
             memset(recv_buffer,0,3000);
             unsigned short recv_len;
             err = WNetRxd(recv_buffer,&recv_len,10000);
@@ -187,7 +179,7 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
                 putstr(recv_buffer);
                 key(0); 
                 putstr("返回success\n");
-                key(0);
+                return CHECKSUCCESS;
             } 
-    return  CHECKSUCCESS;
+ //   return  CHECKSUCCESS;
 }
