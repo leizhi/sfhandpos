@@ -223,7 +223,7 @@ void Examine()
                                                        {
                                                         query_information[k-j]=query_information[k];
                                                        }
-                                                       query_information[k]=0;
+                                                       query_information[k-j]=0;
                                                       break;
                                                    }
                                                }
