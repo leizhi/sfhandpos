@@ -71,8 +71,8 @@ void Examine()
      unsigned char mykey;
      unsigned char cardnum_length;//序列号长度 
      unsigned char send_buffer[30];
-     unsigned char query_information[1000];
-     unsigned short query_length =1000;
+     unsigned char query_information[5000];
+     unsigned short query_length;
      memset(query_information,0,1000);
      memset(send_buffer,0,30);
     
@@ -83,12 +83,15 @@ void Examine()
              err = mif_close();
              if(err != 0)
              {
+                    putstr("mif_close err in examing\n");
+                    key(0);
                     return ;
              }
              err = OpenCard();
              if(err != 0)
              {
                     putstr("打开读卡模块错误\n");
+                    key(0);
                     return ;
              }
              err = InitCard();
@@ -98,6 +101,7 @@ void Examine()
                  if( err != 0)
                  {
                      putstr("验证密码错误");
+                     key(0);
                      return ; 
                  }
                  else
@@ -119,6 +123,7 @@ void Examine()
                           cardnum_length++;
                           send_buffer[1]= '2';
                           cardnum_length++;
+                          putstr("开始封装发送数据\n");
                            int k =0;
                           while(1)
                           {
@@ -134,33 +139,37 @@ void Examine()
                                   }
                                   k++;
                           } 
-                          
+                          putstr("完成封装发送数据\n");                          
                           send_buffer[cardnum_length]= '#';
                           cardnum_length++;
-                          cls();
+                          send_buffer[cardnum_length]='\n';
+                          cardnum_length++;
+                          putstr("完成封装发送数据\n");  
                           
+                          key(0); 
+                          cls();
                           putstr(send_buffer);
                           key(0);
                           
                           unsigned short send_length = cardnum_length;
-                          
-                          //err = WNetConnect(20000);
                          
-                          /*if ( err != 0)
+                         if ( err != 0)
                           {
                              putstr("连接网络超时\n");
+                             key(0);
                              return ;  
                           }
-                          else
+                          /*else
                           {*/
-                            
+                                 
                                   unsigned char send_num =0;
                                   while(send_num<2)
-                                  {
-                                    
+                                  { 
                                      err = WNetTxd(send_buffer,send_length);
                                      if( err == 0)
                                      {
+                                         putstr("发送数据成功\n");
+                                         key(0);
                                          break; 
                                      }
                                      else
@@ -172,8 +181,11 @@ void Examine()
                                             send_num++;
                                      }
                                   }
+                                  
                                   if(send_num ==2)
                                   {
+                                          putstr("发送数据两次错误\n");
+                                          key(0);
                                           return ;
                                   }
                                   else
@@ -193,9 +205,7 @@ void Examine()
                                                putstr(query_information);
                                                key(0);
                                            }
-                                           WmodeClose();
-                                           putstr("\nwnode clsoe\n");
-                                           key(0);
+                                         
                                       }
                              
                          // }

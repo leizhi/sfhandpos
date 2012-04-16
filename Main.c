@@ -73,6 +73,7 @@ int main()
                { 
                         cls();
                         putstr("退出");
+                        key(0);
                         return 1;
                }
     }
@@ -81,6 +82,10 @@ int main()
     
     //验证用户信息
     err = CheckUser(username,password);
+   // err = CHECKSUCCESS;
+    printf("err is %d",err);
+    putstr("验证成功\n");
+    key(0); 
     if(err == CHECKSUCCESS)
     {
            putstr("用户合法\n");
@@ -89,10 +94,13 @@ int main()
     {
         putstr("用户非法");
         //退出处理
-        CloseSystem(); 
+      //  CloseSystem(); 
          
     } 
+    
+    putstr("查询\n"); 
     key(0);
+    
     unsigned char choose_value;
     while(1)
     {
@@ -106,6 +114,7 @@ int main()
            Examine();
       }
     }
+    key(0);
     return 1;
 }
 

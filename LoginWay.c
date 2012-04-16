@@ -130,7 +130,7 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
           send_buffer[len]=name[m];
           len++;
        }
-      // putstr("完成用户名封装\n");
+       putstr("完成用户名封装\n");
        send_buffer[len]=',';
        len++;
        m=0;
@@ -139,12 +139,14 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
            send_buffer[len]=passwd[m];
            len++;
        }
-       //putstr("完成密码封装\n");
-      // key(0);      
+       putstr("完成密码封装\n");
+       key(0);      
        send_buffer[len]='#';
        len++;
-       //putstr(send_buffer);
-      // key(0);
+       send_buffer[len]='\n';
+       len++;
+       putstr(send_buffer);
+       key(0);
      
        int num =0;//尝试发送次数
        while(1)
@@ -183,47 +185,9 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
                 //判断返回信息 
                 putstr("接收数据为：");
                 putstr(recv_buffer);
+                key(0); 
+                putstr("返回success\n");
                 key(0);
-                
-                return  CHECKSUCCESS;
             } 
-
-     putstr(send_buffer);
-     key(0);
-     return CHECKSUCCESS;
-     
-    //err = WNetTxd(send_buffer,5+n+m);
-    /*if( err != 0)
-    {
-         putstr("发送用户名错误");
-            key(0); 
-        return NETERROR; 
-    }
-    err = WNetTxd(passwd,passwd_length);
-    if(err != 0)
-    {
-           putstr("发送密码错误");
-            key(0); 
-        return NETERROR;
-    } 
-    else
-    {
-        //接收验证信息 
-        unsigned char recv_buffer[30];
-        memset(recv_buffer,0,30);
-        unsigned short len;
-        err = WNetRxd(recv_buffer,&len,10000);
-        if(err != 0)
-        {
-               putstr("接收错误");
-            key(0); 
-               return NETERROR;
-        } 
-        else
-        {
-            //判断返回信息 
-            return  CHECKSUCCESS;
-        }
-    }*/
-    
+    return  CHECKSUCCESS;
 }
