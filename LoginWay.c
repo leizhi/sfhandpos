@@ -56,10 +56,7 @@ unsigned char LoginChoose()
                                          {
                                              bell(20);
                                          }
-                         
-                
-         }
-         
+         }       
 } 
 
 int CheckUser(unsigned char* name ,unsigned char* passwd)
@@ -98,17 +95,7 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
     if(err ==0)
     {
            putstr("InitGPRS success\n");
-    }
-    //连接网络
-    /* err = WNetConnect(50000);
-     
-     if(err != 0)  //连接网络超时 
-     {
-            putstr("网络连接超时");
-            key(0); 
-            return NETERROR;
-     }  */
-     
+    }   
      unsigned char send_buffer[100];
      memset(send_buffer,0,100);
      int len=0;
@@ -151,7 +138,7 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
                   putstr("发送数据错误\n");
                   if(num == 3)
                   {
-                          return NETERROR;
+                     return NETERROR;
                   }
                   putstr("正在尝试再次发送");
            }

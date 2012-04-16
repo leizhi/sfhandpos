@@ -88,12 +88,10 @@ void GetUserInformation()
                       moveto(x,y);
                       putch('*');
                       password[index]= keyvalue;
-                      index = index+1;
-                     
+                      index = index+1;    
               }
          }
          //≤‚ ‘”√ 
-       
          cls();
          /*putstr(username);
          putstr("\n");

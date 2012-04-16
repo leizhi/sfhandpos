@@ -181,7 +181,5 @@ int InitGPRS()
     {
         putstr("\n网络连接成功");
          return INITGPRSSUCCESS;  
-    } 
-    
-     
+    }  
 }
