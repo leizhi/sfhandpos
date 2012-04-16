@@ -120,20 +120,22 @@ char ReadUserInformation(unsigned char* name ,unsigned char * passwd)
                   else
                   {
                       putstr("用户名为：");
-                     // putstr(name);
-              
-                      //putstr("\n");
+                     putstr(name);
+                     key(0);
+                      putstr("\n");
                   }
                   err = mif_read(6,passwd);
                   if( err != 0)
                   {
                       putstr("read passwd error");
+                      key(0);
                   }
                   else
                   { 
                       putstr("密码：");
-                     // putstr(passwd);
-                     // putstr("\n");
+                      putstr(passwd);
+                     putstr("\n");
+                     key(0);
                   } 
                   return READUSERINFORMATIONSUCCESS;
               }

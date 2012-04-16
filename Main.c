@@ -41,6 +41,7 @@ int main()
         bell(50);
         putstr("按任意键退出");
         key(0);
+        CloseSystem();
         return 1; 
     }
     else
