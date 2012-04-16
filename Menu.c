@@ -99,6 +99,7 @@ void Examine()
              delay(100);
              if(err == INITCARDSUCCESS )
              {
+                
                  err = mif_authentication(1,1,cardsn);
                  if( err != 0)
                  {
@@ -118,7 +119,8 @@ void Examine()
                      }
                      else
                      {
-                         //发送数据到服务器
+                         cls();
+                         putstr("正在查询，请稍等\n");                         //发送数据到服务器
                           cardnum_length = 0;
                          //封装cardsn
                           send_buffer[0]= '*';

@@ -111,7 +111,7 @@ int main()
       }
     }
     key(0);
-    
+    CloseSystem();
     return 1;
 }
 
