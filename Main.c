@@ -31,7 +31,7 @@ void CloseSystem()
             key(0);
      }                 
     
-     err = WmodeClose();      //关闭GPRS模块 
+     err = WNetIPClose("1",2000);      //关闭GPRS模块 
       if(err !=0)
      {
             putstr("WmodeClose err\n");
