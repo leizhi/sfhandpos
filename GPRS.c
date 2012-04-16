@@ -15,6 +15,7 @@ int InitGPRS()
     unsigned char key_value;
 
   cls();
+  WmodeClose();
   InitNetSetting();
  /* putstr(NET_IP);
   putstr(NET_PORT);
@@ -167,7 +168,7 @@ int InitGPRS()
     {
         putstr("保存网络参数：OK");
     }
-    /*
+   
     err =WNetConnect(20000); //连接网络
     if( err !=0)
     {   
@@ -176,10 +177,11 @@ int InitGPRS()
         key(0);
         return NETCONNECTERROR;
     } 
-    else
+   else
     {
         putstr("\n网络连接成功");
+         return INITGPRSSUCCESS;  
     } 
-    */
-    return INITGPRSSUCCESS;    
+    
+     
 }

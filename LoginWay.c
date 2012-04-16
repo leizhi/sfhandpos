@@ -100,14 +100,15 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
            putstr("InitGPRS success\n");
     }
     //连接网络
-     err = WNetConnect(50000);
+    /* err = WNetConnect(50000);
      
      if(err != 0)  //连接网络超时 
      {
             putstr("网络连接超时");
             key(0); 
             return NETERROR;
-     }  
+     }  */
+     
      unsigned char send_buffer[100];
      memset(send_buffer,0,100);
      int len=0;
@@ -175,10 +176,37 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
             else
             {
                 //判断返回信息 
-                putstr("接收数据为：");
-                putstr(recv_buffer);
-                key(0); 
-                return CHECKSUCCESS;
+               // putstr("接收数据为：");
+          
+                int k =0;
+                unsigned char check_buffer[30];
+                memset(check_buffer,0,30);
+                for(;k<recv_len;k++)
+                {
+                      if(recv_buffer[k]!=',')
+                      {
+                         check_buffer[k]= recv_buffer[k];
+                      }            
+                      else
+                      {
+                          break;
+                      }
+                } 
+                putstr(check_buffer);
+                key(0);
+                if(strcmp(check_buffer,"true")==0)
+                {
+                    putstr(recv_buffer);
+                    key(0); 
+                    return CHECKSUCCESS;
+                }
+                else
+                {
+                    putstr("用户名或密码错误\n");
+                    key(0);
+                    return NETERROR;
+                }
+                
             } 
  //   return  CHECKSUCCESS;
 }

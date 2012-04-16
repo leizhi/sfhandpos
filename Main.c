@@ -30,6 +30,7 @@ void CloseSystem()
 int main()
 {
     int err=0 ;
+   //     int login_num =0;
     bell(20);
     err = InitSystem();
     if( err != 0)
@@ -44,8 +45,8 @@ int main()
     }
     else
     {
-                
-                 err = LoginChoose();
+       
+       err = LoginChoose();
                 if(err == 1)
                 {
                         cls();
@@ -53,15 +54,9 @@ int main()
                         err = ReadUserInformation(username,password);
                         if(err != 0) //无卡退出 
                         {
-                               return 1; 
+                             return 1;
                         }
                         cls();
-                        //putstr(username);
-                        //putstr("\n");
-                        //putstr(password);
-                        //key(0);
-                        
-                 
                 }
                 if(err ==2) 
                     {
@@ -73,25 +68,34 @@ int main()
                { 
                         cls();
                         putstr("退出");
-                        key(0);
                         return 1;
                }
+           //验证用户信息
+                err = CheckUser(username,password);
+                if(err == 0)
+                {
+                       putstr("用户合法\n");
+                     
+                }
+                else
+                {
+                    putstr("用户非法");
+                    key(0);
+                    CloseSystem();  
+                    return 1;
+                    /*login_num++;
+                    if(login_num==4)
+                    {
+                      //可以锁定用户 
+                     return 1; 
+                    }
+                    else
+                    {
+                      continue;
+                    } */
+                 } 
     }
-    //判断是否是锁定用户
-    // 暂时没有这个模块
     
-    //验证用户信息
-    err = CheckUser(username,password);
-    if(err == 0)
-    {
-           putstr("用户合法\n");
-    }
-    else
-    {
-        putstr("用户非法");
-        CloseSystem();    
-    } 
-  
     unsigned char choose_value;
     while(1)
     {
