@@ -1,4 +1,4 @@
-# Project: sfhandpos
+# Project: sfhp
 # Makefile created by S.H.M ,Email:posinfo@126.com
 
 CPP  = arm-elf-g++.exe
@@ -11,14 +11,14 @@ LINKOBJ  = CARD.o GPRS.o IsLockUser.o LoginWay.o Main.o NetSetting.o User.o Menu
 LIBS =   
 INCS = 
 CXXINCS = 
-BIN  = sfhandpos.cof
+BIN  = sfhp.cof
 CXXFLAGS = $(CXXINCS)   -Wall
 CFLAGS = $(INCS)   -Wall
 RM = rm -f
 
 .PHONY: all  clean
 
-all: sfhandpos.cof
+all: sfhp.cof
 
 
 clean: 
@@ -50,5 +50,5 @@ Menu.o: Menu.c
 	$(CC) $(CFLAGS) -c Menu.c -o Menu.o
 
 $(BIN): $(OBJ)
-	$(LD) C:/HandPos/IDE/crt0.o $(LINKOBJ)  -o sfhandpos.cof $(LIBS) -T C:/HandPos/IDE/ldscript
-	$(OBJCOPY) -O binary sfhandpos.cof sfhandpos.bin
+	$(LD) C:/HandPos/IDE/crt0.o $(LINKOBJ)  -o sfhp.cof $(LIBS) -T C:/HandPos/IDE/ldscript
+	$(OBJCOPY) -O binary sfhp.cof sfhp.bin
