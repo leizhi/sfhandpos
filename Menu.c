@@ -80,22 +80,23 @@ void Examine()
      moveto(1,1);
       while(1)
      {
-             /*err = mif_close();
+             err = mif_close();
              if(err != 0)
              {
                     putstr("mif_close err in examing\n");
                     key(0);
                     return ;
              }
-             
+             delay(100);
              err = OpenCard();
              if(err != 0)
              {
                     putstr("´ò¿ª¶Á¿¨Ä£¿é´íÎó\n");
                     key(0);
                     return ;
-             }*/
+             }
              err = InitCard();
+             delay(100);
              if(err == INITCARDSUCCESS )
              {
                  err = mif_authentication(1,1,cardsn);
@@ -205,7 +206,7 @@ void Examine()
                                                cls();
                                                putstr(query_information);
                                                key(0);
-                                               WmodeClose();
+                                              
                                            }
                                          
                                       }

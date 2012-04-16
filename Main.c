@@ -107,6 +107,7 @@ int main()
       else if(choose_value == VIEW)
       {
            Examine();
+           delay(500);
       }
     }
     key(0);

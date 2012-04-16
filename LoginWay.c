@@ -192,12 +192,8 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
                           break;
                       }
                 } 
-                putstr(check_buffer);
-                key(0);
                 if(strcmp(check_buffer,"true")==0)
                 {
-                    putstr(recv_buffer);
-                    key(0); 
                     return CHECKSUCCESS;
                 }
                 else
