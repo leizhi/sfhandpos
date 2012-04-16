@@ -119,10 +119,11 @@ char ReadUserInformation(unsigned char* name ,unsigned char * passwd)
                   }
                   else
                   {
-                      putstr("用户名为：");
+                      //putstr("用户名为：");
                     // putstr(name);
                     // key(0);
-                     // putstr("\n");
+                      putstr("\n");
+                     
                   }
                   err = mif_read(6,passwd);
                   if( err != 0)
@@ -132,9 +133,9 @@ char ReadUserInformation(unsigned char* name ,unsigned char * passwd)
                   }
                   else
                   { 
-                      putstr("密码：");
+                     // putstr("密码：");
                      // putstr(passwd);
-                    // putstr("\n");
+                     putstr("\n");
                     // key(0);
                   } 
                   return READUSERINFORMATIONSUCCESS;

@@ -24,13 +24,14 @@ int InitSystem()
 void CloseSystem()
 {
      int err ;
-     err = mif_close();   
+     err = mif_close();    //关闭读卡模块 
      if(err !=0)
      {
             putstr("mif_close err\n");
             key(0);
-     }                 //关闭读卡模块 
-     err = WmodeClose();                   //关闭GPRS模块 
+     }                 
+    
+     err = WmodeClose();      //关闭GPRS模块 
       if(err !=0)
      {
             putstr("WmodeClose err\n");

@@ -237,7 +237,9 @@ void Examine()
                                                }
                                                else
                                                {
-                                                   putstr("查询无该记录！");
+                                                   bell(30); 
+                                                   putstr("查询无该记录！\n");
+                                                   putstr("按任意键继续\n");
                                                    key(0); 
                                                }
                                               
