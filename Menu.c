@@ -177,7 +177,6 @@ void Examine()
                                      else
                                      {
                                             cls();
-                                            printf("%d",send_num);
                                             putstr("发送失败，再次尝试发送\n");
                                             key(0);
                                             send_num++;
@@ -206,8 +205,41 @@ void Examine()
                                            else
                                            {
                                                cls();
-                                               putstr(query_information);
-                                               key(0);
+                                               unsigned char query_buffer[3000];
+                                               memset(query_buffer,0,3000);
+                                               int k = 0;
+                                               for(;k<query_length;k++)
+                                               {
+                                                   if(query_information[k]!= ',')
+                                                   {
+                                                     query_buffer[k]= query_information[k];
+                                                     query_information[k]=' ';
+                                                   }
+                                                   else
+                                                   {
+                                                      query_information[k] =' '; 
+                                                       int j =k;
+                                                       for(;k<query_length;k++)
+                                                       {
+                                                        query_information[k-j]=query_information[k];
+                                                       }
+                                                       query_information[k]=0;
+                                                      break;
+                                                   }
+                                               }
+                                              
+                                               
+                                                if(strcmp(query_buffer,"true")==0)
+                                                {
+                                                                                  
+                                                   putstr(query_information);
+                                                   key(0);
+                                               }
+                                               else
+                                               {
+                                                   putstr("查询无该记录！");
+                                                   key(0); 
+                                               }
                                               
                                            }
                                          

@@ -30,7 +30,7 @@ void CloseSystem()
 int main()
 {
     int err=0 ;
-   //     int login_num =0;
+      int login_num =0;
     bell(20);
     err = InitSystem();
     if( err != 0)
@@ -45,7 +45,63 @@ int main()
     }
     else
     {
-       
+        while(1)
+        {
+            bell(20);
+         err = LoginChoose();
+                if(err == 1)
+                {
+                        cls();
+                        putstr("刷卡登陆");
+                        err = ReadUserInformation(username,password);
+                        if(err != 0) //无卡退出 
+                        {
+                              return 1;
+                        }
+                        cls();
+                }
+                if(err ==2) 
+                    {
+                        cls();
+                        putstr("输入登陆");
+                        GetUserInformation();
+                }
+                if(err == 3)
+               { 
+                        cls();
+                        putstr("退出");
+                        return 1;
+               }
+           //验证用户信息
+                err = CheckUser(username,password);
+                if(err == 0)
+                {
+                       putstr("用户合法\n");
+                     break;
+                }
+                else
+                {
+                    putstr("用户非法");
+                    key(0);
+                    login_num++;
+                    if(login_num==4)
+                    {
+                      //可以锁定用户 
+                      CloseSystem();
+                        return 1;
+                     
+                    }
+                    else
+                    {
+                      continue;
+                    }
+                    
+                 }     
+        }
+    }
+    /*else
+    {
+       bell(20);
        err = LoginChoose();
                 if(err == 1)
                 {
@@ -83,7 +139,8 @@ int main()
                     key(0);
                     CloseSystem();  
                     return 1;
-                    /*login_num++;
+                   
+                    login_num++;
                     if(login_num==4)
                     {
                       //可以锁定用户 
@@ -92,9 +149,11 @@ int main()
                     else
                     {
                       continue;
-                    } */
+                    }
+                    
                  } 
-    }
+              
+    }   */
     
     unsigned char choose_value;
     while(1)
@@ -102,7 +161,7 @@ int main()
       choose_value = MenuChoose();
       if(choose_value == CLS)
       {
-         break;
+        break;
       }
       else if(choose_value == VIEW)
       {
@@ -110,7 +169,6 @@ int main()
            delay(500);
       }
     }
-    key(0);
     CloseSystem();
     return 1;
 }
