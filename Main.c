@@ -25,7 +25,7 @@ void CloseSystem()
 {
      int err ;
      err = mif_close();                    //关闭读卡模块 
-    // err = WmodeClose();                   //关闭GPRS模块 
+     err = WmodeClose();                   //关闭GPRS模块 
 } 
 int main()
 {
@@ -93,8 +93,8 @@ int main()
     else
     {
         putstr("用户非法");
-        //退出处理
-      //  CloseSystem(); 
+       
+        CloseSystem(); 
          
     } 
     
