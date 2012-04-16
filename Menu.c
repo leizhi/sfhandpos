@@ -80,20 +80,21 @@ void Examine()
      moveto(1,1);
       while(1)
      {
-             err = mif_close();
+             /*err = mif_close();
              if(err != 0)
              {
                     putstr("mif_close err in examing\n");
                     key(0);
                     return ;
              }
+             
              err = OpenCard();
              if(err != 0)
              {
                     putstr("打开读卡模块错误\n");
                     key(0);
                     return ;
-             }
+             }*/
              err = InitCard();
              if(err == INITCARDSUCCESS )
              {
@@ -123,7 +124,7 @@ void Examine()
                           cardnum_length++;
                           send_buffer[1]= '2';
                           cardnum_length++;
-                          putstr("开始封装发送数据\n");
+                         // putstr("开始封装发送数据\n");
                            int k =0;
                           while(1)
                           {
@@ -139,17 +140,15 @@ void Examine()
                                   }
                                   k++;
                           } 
-                          putstr("完成封装发送数据\n");                          
+                         // putstr("完成封装发送数据\n");                          
                           send_buffer[cardnum_length]= '#';
                           cardnum_length++;
                           send_buffer[cardnum_length]='\n';
                           cardnum_length++;
-                          putstr("完成封装发送数据\n");  
-                          
-                          key(0); 
-                          cls();
-                          putstr(send_buffer);
-                          key(0);
+                         // putstr("完成封装发送数据\n");  
+                         
+                         // putstr(send_buffer);
+                         // key(0);
                           
                           unsigned short send_length = cardnum_length;
 
@@ -169,8 +168,7 @@ void Examine()
                                      err = WNetTxd(send_buffer,send_length);
                                      if( err == 0)
                                      {
-                                         putstr("发送数据成功\n");
-                                         key(0);
+                                         //putstr("发送数据成功\n");
                                          break; 
                                      }
                                      else
@@ -192,19 +190,22 @@ void Examine()
                                   else
                                       {
                                            //然后接受返回信息 
-                                           putstr("准备接受数据\n");
+                                          // putstr("准备接受数据\n");
                                            err = WNetRxd(query_information,&query_length,10000);
-                                           putstr(" 接收数据完成\n"); 
+                                          // putstr(" 接收数据完成\n"); 
                                            if(err != 0)
                                            {
                                                   putstr("an err in recv\n");
                                                   key(0);
+                                                  WmodeClose();
                                                   return ;
                                            }
                                            else
                                            {
+                                               cls();
                                                putstr(query_information);
                                                key(0);
+                                               WmodeClose();
                                            }
                                          
                                       }

@@ -82,10 +82,6 @@ int main()
     
     //验证用户信息
     err = CheckUser(username,password);
-    //err = CHECKSUCCESS;
-    printf("err is %d",err);
-    putstr("验证成功\n");
-    key(0); 
     if(err == 0)
     {
            putstr("用户合法\n");
@@ -93,14 +89,9 @@ int main()
     else
     {
         putstr("用户非法");
-       
-        CloseSystem(); 
-         
+        CloseSystem();    
     } 
-    
-    putstr("查询\n"); 
-    key(0);
-    
+  
     unsigned char choose_value;
     while(1)
     {

@@ -14,7 +14,7 @@ char InitCard()
      Initialization();
      unsigned char keya[16]={0xff,0xff,0xff,0xff,0xff,0xff};//密码 
      cls();
-    // OpenCard();
+     OpenCard();
      putstr("正在寻卡请求...\n");
             err = mif_request(IDLE ,atq);//寻卡请求 IDLE为单卡模式 ALL 为多卡模式 
             if( err != 0)
