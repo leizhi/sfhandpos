@@ -20,4 +20,16 @@ char OpenCard();
 char InitCard();
 void Initialization();
 char ReadUserInformation(unsigned char* name ,unsigned char * passwd);
+
+/*
+²Ù×÷UL 
+*/
+int find_mifare_ID(unsigned char* buffer);
+
+int find_UL_ID(uchar *length,char* buffer);
+
+int readM1(uchar *length,uchar *cardnum,char* buffer);
+
+int readUL(uchar *length,unsigned char *serial_number,char* buffer);
+
 #endif

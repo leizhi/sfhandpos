@@ -24,30 +24,20 @@ int InitSystem()
 void CloseSystem()
 {
      int err ;
-     err = mif_close();    //关闭读卡模块 
-     if(err !=0)
-     {
-            putstr("mif_close err\n");
-            key(0);
-     }                 
-    
-     err = WNetIPClose("1",2000);      //关闭GPRS模块 
-      if(err !=0)
-     {
-            putstr("WmodeClose err\n");
-            key(0);
-     }         
-} 
+     err = mif_close();                    //关闭读卡模块 
+     err = WmodeClose();                   //关闭GPRS模块 
+}
+
 int main()
 {
     int err=0 ;
-      int login_num =0;
+    int login_num =0;
     bell(20);
     err = InitSystem();
     if( err != 0)
     {
         cls();
-        bell(10);
+        bell(20);
         putstr("初始化系统出错！\n");
         bell(50);
         putstr("按任意键退出");
@@ -59,8 +49,8 @@ int main()
     {
         while(1)
         {
-            bell(10);
-            err = LoginChoose();
+            bell(20);
+         err = LoginChoose();
                 if(err == 1)
                 {
                         cls();
@@ -68,9 +58,9 @@ int main()
                         err = ReadUserInformation(username,password);
                         if(err != 0) //无卡退出 
                         {
-                               CloseSystem();
                               return 1;
                         }
+                        cls();
                 }
                 if(err ==2) 
                     {
@@ -82,8 +72,6 @@ int main()
                { 
                         cls();
                         putstr("退出");
-                        
-                        CloseSystem();
                         return 1;
                }
            //验证用户信息
@@ -98,9 +86,9 @@ int main()
                     putstr("用户非法");
                     key(0);
                     login_num++;
-                    if(login_num==3)
+                    if(login_num==4)
                     {
-                      //可以锁定用户功能模块 
+                      //可以锁定用户 
                       CloseSystem();
                         return 1;
                      
@@ -112,7 +100,8 @@ int main()
                     
                  }     
         }
-    }  
+    }
+    
     unsigned char choose_value;
     while(1)
     {

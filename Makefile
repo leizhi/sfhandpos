@@ -1,4 +1,4 @@
-# Project: sfhp
+# Project: sfhandpos
 # Makefile created by S.H.M ,Email:posinfo@126.com
 
 CPP  = arm-elf-g++.exe
@@ -6,19 +6,19 @@ CC   = arm-elf-gcc.exe
 AR  = arm-elf-ar.exe
 LD   = arm-elf-ld.exe
 OBJCOPY   = arm-elf-objcopy.exe
-OBJ  = CARD.o GPRS.o IsLockUser.o LoginWay.o Main.o NetSetting.o User.o Menu.o
-LINKOBJ  = CARD.o GPRS.o IsLockUser.o LoginWay.o Main.o NetSetting.o User.o Menu.o
+OBJ  = CARD.o GPRS.o IsLockUser.o LoginWay.o Main.o NetSetting.o User.o Menu.o Comm.o
+LINKOBJ  = CARD.o GPRS.o IsLockUser.o LoginWay.o Main.o NetSetting.o User.o Menu.o Comm.o
 LIBS =   
 INCS = 
 CXXINCS = 
-BIN  = sfhp.cof
+BIN  = sfhandpos.cof
 CXXFLAGS = $(CXXINCS)   -Wall
 CFLAGS = $(INCS)   -Wall
 RM = rm -f
 
 .PHONY: all  clean
 
-all: sfhp.cof
+all: sfhandpos.cof
 
 
 clean: 
@@ -49,6 +49,9 @@ User.o: User.c
 Menu.o: Menu.c
 	$(CC) $(CFLAGS) -c Menu.c -o Menu.o
 
+Comm.o: Comm.c
+	$(CC) $(CFLAGS) -c Comm.c -o Comm.o
+
 $(BIN): $(OBJ)
-	$(LD) C:/HandPos/IDE/crt0.o $(LINKOBJ)  -o sfhp.cof $(LIBS) -T C:/HandPos/IDE/ldscript
-	$(OBJCOPY) -O binary sfhp.cof sfhp.bin
+	$(LD) C:/HandPos/IDE/crt0.o $(LINKOBJ)  -o sfhandpos.cof $(LIBS) -T C:/HandPos/IDE/ldscript
+	$(OBJCOPY) -O binary sfhandpos.cof sfhandpos.bin

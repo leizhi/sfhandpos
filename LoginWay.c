@@ -56,19 +56,22 @@ unsigned char LoginChoose()
                                          {
                                              bell(20);
                                          }
-         }       
+                         
+                
+         }
+         
 } 
 
 int CheckUser(unsigned char* name ,unsigned char* passwd)
 {
-    int err ;
+    int RET ;
     int name_length=0;
     int passwd_length=0;
     int i=0;
     putstr("正在验证信息，请稍等\n");
     while(1)
     {
-       if((name[i] == 0x20)||(name[i]==0X00))
+       if((name[i] == 0x20)||(name[i]==0x00))
        {
                    break;
        }
@@ -88,14 +91,17 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
             i++;
         }
     }
+    /*
     uchar n_l[20];
     uchar p_l[20];
     itos(name_length,n_l);
     itos(passwd_length,p_l);
-    if(err ==0)
+    */
+    if(RET ==0)
     {
            putstr("InitGPRS success\n");
-    }   
+    }
+     ////////////////////
      unsigned char send_buffer[100];
      memset(send_buffer,0,100);
      int len=0;
@@ -125,20 +131,20 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
        len++;
        send_buffer[len]='\n';
        len++;
-      // putstr(send_buffer);
-      // key(0);
+       putstr(send_buffer);
+       key(0);
      
        int num =0;//尝试发送次数
        while(1)
        { 
-           err= WNetTxd(send_buffer,len);
-           if(err !=0 )
+           RET= WNetTxd(send_buffer,len);
+           if(RET !=0 )
            {
                   num++;
                   putstr("发送数据错误\n");
                   if(num == 3)
                   {
-                     return NETERROR;
+                          return NETERROR;
                   }
                   putstr("正在尝试再次发送");
            }
@@ -152,9 +158,9 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
             unsigned char recv_buffer[3000];
             memset(recv_buffer,0,3000);
             unsigned short recv_len;
-            err = WNetRxd(recv_buffer,&recv_len,10000);
+            RET = WNetRxd(recv_buffer,&recv_len,10000);
             
-            if(err != 0)
+            if(RET != 0)
             {
                    putstr("接收错误");
                    key(0); 

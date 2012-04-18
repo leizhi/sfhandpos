@@ -1,6 +1,7 @@
 #include <hspos.h>
 #include<gprs_api.h>
 #include"GPRS.H"
+#include"CARD.H"
 #include"NetSetting.h"
 /***********************
 *函数名：InitGPRS 
@@ -10,7 +11,7 @@
 ***********************/
 int InitGPRS()
 {
-    int err; 
+    int RET; 
     int i = 0; 
     unsigned char key_value;
 
@@ -31,8 +32,8 @@ int InitGPRS()
             return INITCANCLE;
        }
        
-       err=WmodeOpen();
-       if(err!=0)
+       RET=WmodeOpen();
+       if(RET!=0)
        { 	
      		i++;
      		if(i>0)                    //第一次打开失败，关闭模块 
@@ -56,8 +57,8 @@ int InitGPRS()
   while(1) 
   {
    
-       err=WmodeCheckSIM();
-       if(err==0)
+       RET=WmodeCheckSIM();
+       if(RET==0)
        {
        		putstr("检测SIM卡：ok\n");
        		break;
@@ -76,8 +77,8 @@ int InitGPRS()
     
     unsigned char s[2];
     putstr("检查模块是否注册\n");
-    err = WmodeREGStatus(s);//参数s无意义  检查GPRS模块是否注册 
-    if(err != 0)
+    RET = WmodeREGStatus(s);//参数s无意义  检查GPRS模块是否注册 
+    if(RET != 0)
     {
            return REGSTATUSERROR; 
     }
@@ -87,8 +88,8 @@ int InitGPRS()
     }
     
     putstr("检测模块是否支持GPRS\n");
-    err = WmodeCheckGPRSSupport();//检查是否支持GPRS
-    if(err != 0)
+    RET = WmodeCheckGPRSSupport();//检查是否支持GPRS
+    if(RET != 0)
     {
            return GPRSSUPPORTERROR; 
     } 
@@ -99,8 +100,8 @@ int InitGPRS()
     delay(10000);
     cls();
     putstr("检测GPRS网络状态\n");
-    err = WmodeCheckGPRSstatus(s);//检查GPRS网络状态
-     if( err !=0)
+    RET = WmodeCheckGPRSstatus(s);//检查GPRS网络状态
+     if( RET !=0)
     {
         return CHECKSTATUSERROR;
     }
@@ -112,8 +113,8 @@ int InitGPRS()
     putstr("检测信号强度...\n");
     unsigned char ss[10];
     memset(ss,0,10);
-    err=WmodeCheckSignal(ss);
-     if( err !=0)
+    RET=WmodeCheckSignal(ss);
+     if( RET !=0)
     {
         return CHECKSIGNALERROR;
     }
@@ -126,8 +127,8 @@ int InitGPRS()
          
     }
     putstr("正在设置网络IP和端口...\n") ;
-    err=WNetSeting("2","5001",NET_IP,NET_PORT);//网络端口设置 
-    if(err != 0)
+    RET=WNetSeting("2","5001",NET_IP,NET_PORT);//网络端口设置 
+    if(RET != 0)
     {
            return NETSETERROR;
     }
@@ -137,8 +138,8 @@ int InitGPRS()
     } 
     
     putstr("正在设置网络参数...");
-    err = WNetInit("512","6000","6000","6000");//设置网络参数 
-    if(err !=0 )
+    RET = WNetInit("512","6000","6000","6000");//设置网络参数 
+    if(RET !=0 )
     {
            return NETINITERROR;
     } 
@@ -149,8 +150,8 @@ int InitGPRS()
     delay(10000);
     cls(); 
     putstr("正在设置网络连接...\n");
-    err =   WNetCont("1","IP","CMNET","0,0");     //网络连接设置
-    if( err != 0)
+    RET =   WNetCont("1","IP","CMNET","0,0");     //网络连接设置
+    if( RET != 0)
     {
         return NETCONTERRRO;
     } 
@@ -159,8 +160,8 @@ int InitGPRS()
         putstr("设置网络连接: OK\n"); 
     }
     putstr("正在保存网络参数...\n");
-    err = WmodeSave();                  //保存网络参数
-    if( err != 0 )
+    RET = WmodeSave();                  //保存网络参数
+    if( RET != 0 )
     {
         return MODESAVEERROR;
     } 
@@ -169,8 +170,8 @@ int InitGPRS()
         putstr("保存网络参数：OK");
     }
    
-    err =WNetConnect(20000); //连接网络
-    if( err !=0)
+    RET =WNetConnect(20000); //连接网络
+    if( RET !=0)
     {   
         cls(); 
         putstr("\n 网络出现故障 请检查");
@@ -181,5 +182,160 @@ int InitGPRS()
     {
         putstr("\n网络连接成功");
          return INITGPRSSUCCESS;  
-    }  
+    } 
+    
+     
+}
+
+void search_card(uchar *sealNo)
+{                 
+     putstr("search_card3\n");                 
+     unsigned char send_buffer[100]={0};
+     unsigned char *p=send_buffer;
+     
+     int sealNo_length;
+     int k;
+     int RET;
+
+     memset(send_buffer,0,100);
+     sealNo_length=0;
+     
+     cls();
+     putstr("正在查询，请稍等\n");                         //发送数据到服务器
+     printf("send buffer:%s\n",send_buffer);
+     
+     *p='*';
+     p++;
+     
+     *p='2';
+     p++;
+     
+     while(*sealNo!=0x00){
+         if(*sealNo== 0x00) {
+                 putstr("查询卡错误");       
+                 break;
+             }
+             
+        *p=*sealNo;
+        
+        p++;
+        sealNo++;
+     }
+     
+     
+     //                      
+      *p = '#';
+       p++;
+      *p='\n';
+      putstr("完成封装发送数据\n");  
+     
+      putstr(send_buffer);
+      key(0);
+      
+      p=send_buffer;
+      k=0;
+      while(*p!='\n' && *p!=0){
+          p++;
+          k++;    
+      }
+
+      printf("k:%d",k);
+      key(0);
+      
+      unsigned char send_num =0;
+      while(send_num<2)
+      { 
+         cls();
+         putstr("\nend_buffer:");
+         putstr(send_buffer);
+         RET = WNetTxd(send_buffer,k);
+         printf("\nsender_buffer_error:%d",RET);
+         key(0);
+                 
+         if( RET == 0)
+         {
+             putstr("发送数据成功\n");
+             break; 
+         }
+         else
+         {
+                cls();
+                putstr("发送失败，再次尝试发送\n");
+                key(0);
+                send_num++;
+         }
+      }
+              
+      if(send_num ==2)
+      {
+              putstr("发送数据两次错误\n");
+              key(0);
+              return ;
+      }
+
+        //然后接受返回信息 
+        cls();
+
+        unsigned char recv_buffer[3000];
+        memset(recv_buffer,0,3000);
+        unsigned short recv_len;
+        
+        putstr("准备接收数据\n");
+        RET = WNetRxd(recv_buffer,&recv_len,10000);
+        putstr("接收数据完成\n");
+        printf("\nrecv_len:%d",recv_len);
+        putstr(recv_buffer);
+        printf("\nRET:%d",RET);
+        
+        key(0);
+        
+        if(RET != 0)
+        {
+          cls();
+          putstr("an RET in recv\n");
+          key(0);
+
+          return ;
+        }
+        else
+        {
+        cls();
+        
+        unsigned char query_buffer[3000];
+        memset(query_buffer,0,3000);
+        int k = 0;
+        for(;k<recv_len;k++)
+        {
+           if(recv_buffer[k]!= ',')
+           {
+             query_buffer[k]= recv_buffer[k];
+             recv_buffer[k]=' ';
+           }
+           else
+           {
+              recv_buffer[k] =' '; 
+               int j =k;
+               for(;k<recv_len;k++)
+               {
+                recv_buffer[k-j]=recv_buffer[k];
+               }
+               recv_buffer[k-j]=0;
+              break;
+           }
+        }
+        
+        
+        if(strcmp(query_buffer,"true")==0)
+        {
+                                          
+           putstr(recv_buffer);
+           key(0);
+        }
+        else
+        {
+           putstr("查询无该记录！");
+           key(0); 
+           
+        }
+    }
 }
