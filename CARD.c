@@ -162,14 +162,34 @@ char ReadUserInformation(unsigned char* name ,unsigned char * passwd)
 
 //mifare
 //ø®–Ú¡–∫≈
-int find_mifare_ID(unsigned char* buffer){
-    int result = mif_anticoll(0, buffer);
-    return result;
+int find_mifare_ID(unsigned char* buffer){   
+    unsigned char type[3] = {0};
+    
+    int RET = mif_request(IDLE ,type);
+    
+    if(RET!=0) {
+       printf("\nŒﬁM1ø®");
+       return -1;
+    }
+    
+    RET = mif_anticoll(0, buffer);
+    
+    if(RET!=0) {
+       printf("\nM1ø®∂¡»°–Ú¡–∫≈ ß∞‹"); 
+       return -2;
+    }
+    
+    printf("find_mifare RET:%d\n",RET);
+    return 0;
 }
+
 //UL
 //ø®–Ú¡–∫≈
 int find_UL_ID(uchar *length,char* buffer){
-    return (int)ULight_findcarda(0x26,length,buffer);
+    int RET = (int)ULight_findcarda(0x26,length,buffer);
+    
+    printf("find_UL RET:%d\n",RET);
+    return RET;
 }
 
 int readM1(uchar *length,uchar *serial_number,char* buffer){
@@ -188,7 +208,7 @@ int readM1(uchar *length,uchar *serial_number,char* buffer){
     if(RET == INITCARDSUCCESS )
     {
     
-     RET = mif_authentication(1,1,cardsn);
+     RET = mif_authentication(1,1,serial_number);
      if( RET != 0)
      {
          putstr("—È÷§√‹¬Î¥ÌŒÛ");
@@ -247,6 +267,7 @@ int readUL(uchar *length,unsigned char *serial_number,char* buffer){
     cls();
     putstr("–Ú¡–∫≈:");
     putstr(serial_number);
+    //printf("–Ú¡–∫≈:%s\n",serial_number);
     key(0);
     
     RET = mif_read(8,buffer);

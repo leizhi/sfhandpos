@@ -100,6 +100,7 @@ void Examine()
 		
 		if(RET==0){
               RET = readM1(&length,serial_number,read_buf);
+              cls();
               putstr("readM1\n");
               key(0);
         }else{

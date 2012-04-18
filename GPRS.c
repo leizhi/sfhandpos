@@ -234,7 +234,7 @@ void search_card(uchar *sealNo)
       
       p=send_buffer;
       k=0;
-      while(*p!='\n' && *p!=0){
+      while(*p!=0){
           p++;
           k++;    
       }
