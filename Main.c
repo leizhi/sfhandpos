@@ -24,8 +24,48 @@ int InitSystem()
 void CloseSystem()
 {
      int err ;
+     unsigned char exit_msg[10];
+     memset(exit_msg,0,10);
+     exit_msg[0] = '*';
+     exit_msg[1] = '3';
+     exit_msg[2]= '#';
+     exit_msg[3] = '\n';
+     
      err = mif_close();                    //关闭读卡模块 
-     err = WmodeClose();                   //关闭GPRS模块 
+
+     err = WNetTxd(exit_msg,4);
+     
+     if(err !=0)
+     { 
+            int k =0;
+            putstr("err in exit_msg");
+            key(0);
+            while(1)
+            {
+               err = WNetTxd(exit_msg,4);
+               if(err!=0)
+               {
+                  k++;
+               }
+               else
+               {
+                    err =WNetIPClose("1",2000);
+                    break ;
+               }
+               if(k ==2)
+               {
+                    break;
+               }
+            }
+            
+     }
+     else
+     {
+         putstr("exiting ");
+         key(0);
+         err =WNetIPClose("1",2000);
+     }
+  
 }
 
 int main()
@@ -72,6 +112,7 @@ int main()
                { 
                         cls();
                         putstr("退出");
+                        CloseSystem();
                         return 1;
                }
            //验证用户信息
