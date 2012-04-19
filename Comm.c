@@ -35,3 +35,47 @@ void toHex(unsigned char *src,unsigned char *hex){
         src++;
     }
 }
+/****************************************************************************
+函数名称: swap
+函数功能: 高低字节交换 
+输入参数: src 字符串
+输出参数: 无
+*****************************************************************************/
+int swap(unsigned char *src){
+    unsigned char buffer[2]={0};
+    short i;
+    short size=2;
+    for (i = 0; i < size ; i++) {
+        buffer[i]=src[size-1-i];
+    }
+
+    for (i = 0; i < size ; i++) {
+        src[i]=buffer[i];
+    }
+    return 0;
+}
+/****************************************************************************
+函数名称: toShort
+函数功能: 字节转换成短整型 
+输入参数: buffer 字符串
+输出参数: short
+*****************************************************************************/
+short toShort(unsigned char *buffer){
+    unsigned char *p=buffer;
+    
+    unsigned short mask = 0xff;
+    unsigned short temp = 0;
+    unsigned short result = 0;
+    
+    unsigned short i;
+    for (i = 0; i < 2 ; i++) {
+    	result <<= 8;
+    	temp = *p & mask;
+    	result |= temp;
+    	
+    	p++;
+    }
+    
+    printf("buf:%d 0x%04x\n",result,result);
+    return result;
+}

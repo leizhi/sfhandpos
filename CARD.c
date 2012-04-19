@@ -262,14 +262,10 @@ int readM1(uchar *length,uchar *serial_number,char* buffer){
 
 int readUL(uchar *length,unsigned char *serial_number,char* buffer){
     
-    int RET = find_UL_ID(&length,serial_number);
+    int RET = -1;
     
-    cls();
-    putstr("–Ú¡–∫≈:");
-    putstr(serial_number);
-    //printf("–Ú¡–∫≈:%s\n",serial_number);
-    key(0);
-    
+    RET = find_UL_ID(&length,serial_number);
+        
     RET = mif_read(8,buffer);
     
     int k=0;
@@ -279,14 +275,9 @@ int readUL(uchar *length,unsigned char *serial_number,char* buffer){
     cls();
     putstr("æ∆πﬁ∫≈:");
     putstr(buffer);
-    key(0);
 
-    cls();
     RET = mif_read(4,serial_number);
-    putstr(serial_number);
-    //toHex(serial_number, buffer);
-    //printf("buf:%s\n",serial_number);
-    //printf("buffer:%s\n",serial_number);
+
     key(0);
     
     return 0;

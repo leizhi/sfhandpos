@@ -4,6 +4,6 @@
 #define                 VIEW            1
 #define                 CLS             2
 unsigned char  MenuChoose();
-void Examine();
+int Examine();
 unsigned char cardnum[40];
 #endif

@@ -68,7 +68,7 @@ unsigned char  MenuChoose()
           }
      }
 }
-void Examine()
+int Examine()
 {
      int RET=-1;
      unsigned char mykey;
@@ -77,36 +77,53 @@ void Examine()
      cls();
      moveto(1,1);
       while(1)
-     {
-  		if(MI_OK!=mif_open())
-        	{
-		cls();
-		putstr("\n inital error");
-		key(0);
-		return;
-
-        	}
-        printf("mi_ok:%d\n",MI_OK);
-        key(0);
-
+     {   
 		unsigned char serial_number[32]={0};      
         unsigned char read_buf[16]={0};
         
-        unsigned char buffer[64]={0};
+		if(MI_OK!=mif_open())
+        {
+    		cls();
+    		putstr("\n inital error");
+    		key(0);
+    		return -1;
+        }
+        cls();
+        printf("mi_ok:%d\n",MI_OK);
         
-		RET = find_mifare_ID(serial_number);
-        printf("RET:%d",RET);
-		key(0);
-		
-		if(RET==0){
-              RET = readM1(&length,serial_number,read_buf);
-              cls();
-              putstr("readM1\n");
-              key(0);
-        }else{
-               RET = readUL(&length,serial_number,read_buf);
+        unsigned char type[2]={0};
+        
+        RET = mif_request(IDLE ,type);
+        if(RET!=0) {
+           printf("\n无卡");
+           return -1;
+        }
+                
+        RET=swap(type);
                
-               cls();
+        short cardType = toShort(type);
+        
+        printf("cardType:%d %04x\n",cardType,cardType);
+        if(RET!=0) {
+           printf("\n寻卡失败"); 
+           return -2;
+        }
+
+		if(cardType==0x04){
+            RET = mif_anticoll(0, serial_number);
+            if(RET!=0) {
+                printf("\n卡读取序列号失败"); 
+                return -2;
+            }
+            printf("\nSN RET:%d",RET);
+            
+            RET = readM1(&length,serial_number,read_buf);
+
+            putstr("readM1\n");
+            key(0);
+        }else if(cardType==0x44){
+               RET = readUL(&length,serial_number,read_buf);
+
                putstr("readUL\n");
                key(0);
         }
@@ -125,10 +142,11 @@ void Examine()
 			putstr("按其他任意键继续\n");
     		if(mykey == KEY_CLS)
     		 {
-    		   return ;
+    		   return 0;
     		 }
 		}else{
 			search_card(serial_number);
 		}
+
   }
 }
