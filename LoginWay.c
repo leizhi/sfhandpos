@@ -131,8 +131,8 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
        len++;
        send_buffer[len]='\n';
        len++;
-       putstr(send_buffer);
-       key(0);
+      // putstr(send_buffer);
+       //key(0);
      
        int num =0;//³¢ÊÔ·¢ËÍ´ÎÊı
        while(1)

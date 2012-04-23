@@ -63,7 +63,9 @@ void CloseSystem()
      {
          putstr("exiting ");
          key(0);
+         
          err =WNetIPClose("1",2000);
+        // err = WmodeClose();
      }
   
 }
@@ -113,6 +115,8 @@ int main()
                         cls();
                         putstr("退出");
                         CloseSystem();
+                       // key(0);
+                        WmodeClose();
                         return 1;
                }
            //验证用户信息
@@ -146,6 +150,7 @@ int main()
     unsigned char choose_value;
     while(1)
     {
+      
       choose_value = MenuChoose();
       if(choose_value == CLS)
       {
@@ -153,11 +158,14 @@ int main()
       }
       else if(choose_value == VIEW)
       {
+           putstr("正在查询等稍等\n");
            Examine();
            delay(500);
       }
     }
     CloseSystem();
+    //key(0);
+    WmodeClose();
     return 1;
 }
 

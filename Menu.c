@@ -119,18 +119,18 @@ int Examine()
             
             RET = readM1(&length,serial_number,read_buf);
 
-            putstr("readM1\n");
-            key(0);
+            //putstr("readM1\n");
+            //key(0);
         }else if(cardType==0x44){
                RET = readUL(&length,serial_number,read_buf);
 
-               putstr("readUL\n");
-               key(0);
+               //putstr("readUL\n");
+               //key(0);
         }
         
-        putstr("\nRFID·ÀÎ±Âë:");
-        putstr(serial_number);
-        key(0);
+       // putstr("\nRFID·ÀÎ±Âë:");
+        //putstr(serial_number);
+       // key(0);
         
 		if(RET==-1)
 		{

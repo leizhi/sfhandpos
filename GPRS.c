@@ -201,8 +201,9 @@ void search_card(uchar *sealNo)
      sealNo_length=0;
      
      cls();
-     putstr("正在查询，请稍等\n");                         //发送数据到服务器
-     printf("send buffer:%s\n",send_buffer);
+        putstr("正在查询，请稍等\n"); 
+                         //发送数据到服务器
+    // printf("send buffer:%s\n",send_buffer);
      
      *p='*';
      p++;
@@ -229,8 +230,8 @@ void search_card(uchar *sealNo)
       *p='\n';
       putstr("完成封装发送数据\n");  
      
-      putstr(send_buffer);
-      key(0);
+     // putstr(send_buffer);
+      //key(0);
       
       p=send_buffer;
       k=0;
@@ -239,18 +240,18 @@ void search_card(uchar *sealNo)
           k++;    
       }
 
-      printf("k:%d",k);
-      key(0);
+     // printf("k:%d",k);
+     // key(0);
       
       unsigned char send_num =0;
       while(send_num<2)
       { 
          cls();
-         putstr("\nend_buffer:");
-         putstr(send_buffer);
+        // putstr("\nend_buffer:");
+        // putstr(send_buffer);
          RET = WNetTxd(send_buffer,k);
-         printf("\nsender_buffer_error:%d",RET);
-         key(0);
+         //printf("\nsender_buffer_error:%d",RET);
+        // key(0);
                  
          if( RET == 0)
          {
@@ -280,14 +281,14 @@ void search_card(uchar *sealNo)
         memset(recv_buffer,0,3000);
         unsigned short recv_len;
         
-        putstr("准备接收数据\n");
+       // putstr("准备接收数据\n");
         RET = WNetRxd(recv_buffer,&recv_len,10000);
-        putstr("接收数据完成\n");
-        printf("\nrecv_len:%d",recv_len);
-        putstr(recv_buffer);
-        printf("\nRET:%d",RET);
+       // putstr("接收数据完成\n");
+       // printf("\nrecv_len:%d",recv_len);
+        //putstr(recv_buffer);
+        //printf("\nRET:%d",RET);
         
-        key(0);
+       // key(0);
         
         if(RET != 0)
         {
@@ -300,7 +301,7 @@ void search_card(uchar *sealNo)
         else
         {
         cls();
-        
+            
         unsigned char query_buffer[3000];
         memset(query_buffer,0,3000);
         int k = 0;
