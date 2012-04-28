@@ -61,18 +61,223 @@ void CloseSystem()
      }
      else
      {
-         putstr("exiting ");
-         key(0);
-         
+         ulong  i =3600000;
+         cls();
+         putstr("正在关闭设备，请稍等...");
+         while(i)
+         {
+                 i--;
+         } 
+   cls();     
          err =WNetIPClose("1",2000);
-        // err = WmodeClose();
+      
      }
   
 }
 
 int main()
 {
-    int err=0 ;
+     uchar choose;
+     uchar flag =0;
+  cls();
+         while(1)
+         {    
+                
+         moveto(4,6);
+         putstr("欢迎使用");
+         moveto(6,4);
+         putstr("请选择查询方式");
+         moveto(8,1);
+         putstr("【 1 】: 本地查询");
+         moveto(10,1);
+         putstr("【 2 】: 网络查询");
+         moveto(12,1);
+         putstr("【CLS】：退出登陆");
+
+         moveto(16,1);
+         putstr("请选择"); 
+         moveto(16,8);
+             choose = key(0);
+             if(choose == 0x31)
+             {
+                moveto (16,1);
+                clsn(16,2);
+                moveto(16,1);
+                putstr("请选择"); 
+                 moveto(16,8);
+                 putch(choose);
+                 flag = 1;
+                
+             }
+             else if(choose == 0x32)
+             {
+                    moveto (16,1);
+                clsn(16,2);
+                moveto(16,1);
+                  putstr("请选择"); 
+                     moveto(16,8);
+                     putch(choose);
+                     flag = 2;
+             }
+             else if(choose == KEY_CLS)
+             {
+                  return 1;
+              } 
+              else if(choose == KEY_ENTER)
+              {
+                    if(flag ==1 ||flag ==2)
+                    { 
+                               if(flag ==1)
+                             {
+                               WithoutNet(); 
+                               cls();
+                             }
+                             if(flag ==2)
+                             {
+                                     UsingNet();
+                                     cls();
+                             }
+                            
+                    }
+                    else
+                    {
+                        flag =0;
+                        bell(20);
+                    }
+              }
+              else
+                {
+                     bell(20);
+                 
+                 }
+         }
+     
+    return 1;
+}
+int WithoutNet()
+{
+    int RET=-1;
+     unsigned char mykey;
+     uchar winenum[16]={0};
+     uchar length=0;
+     cls();
+     int err = OpenCard();
+     if(err !=0)
+     {
+            putstr("打开读卡模块失败\n");
+            putstr("按任意键返回\n");
+            key(0);
+            return 1; 
+     }
+     else if(err ==0)
+     {    
+          unsigned char serial_number[32]={0};      
+        unsigned char read_buf[16]={0};
+         unsigned char type[2]={0};
+          while(1)
+          {     
+                err = OpenCard();
+                if (err !=0)
+                {
+                 putstr("打开读卡模块失败\n");
+                  putstr("按任意键返回\n");
+                 key(0);
+                  return 1; 
+            }
+                  RET = mif_request(IDLE ,type);
+                  
+                 cls();
+                  
+                  if(RET ==0)
+                  {
+                      RET=swap(type);       
+                      short cardType = toShort(type);
+                      if(RET ==0)
+                      {
+                             if(cardType==0x04)
+                                    {
+                                        RET = mif_anticoll(0, serial_number);
+                                        if(RET!=0) 
+                                        {
+                                            printf("\n卡读取序列号失败"); 
+                                            key(0);
+                                            return -2;
+                                        }
+                                     //   printf("\nSN RET:%d",RET);
+                                       // key(0);
+                                        
+                                        memset(read_buf,0,16);
+                                        RET = readM1(&length,serial_number,read_buf);
+                                        
+                                        if(RET == 0)
+                                        {
+                                                cls();
+                                                RET = ReadWineNum(winenum);
+                                                if(RET == 0)
+                                                {
+                                                   putstr(" 酒罐号:");
+                                                 putstr(winenum);
+                                                 putstr("\n");
+                                               printf("serial_number M1");
+                                               printf(serial_number);
+                                               printf("\n");
+                                                 key(0); 
+                                                 return 0;
+                                                 }
+                                                 else
+                                                 {
+                                                     putstr("读酒罐号出错\n");
+                                                     key(0);
+                                                 }
+                                               
+                                               
+                                        }
+                                        else
+                                        {
+                                            putstr("read m1 err\n");
+                                        }
+                                        
+                                    }
+                                    else if(cardType==0x44)
+                                    {
+                                           RET = readUL(&length,serial_number,read_buf);
+                                           
+                                           putstr("read_buf is ");
+                                           putstr(read_buf);
+                                           putstr("\n");
+                                           putstr(serial_number);
+                                           putstr("\n");
+                            
+                                           putstr("readUL\n");
+                                           key(0);
+                                           return 0;
+   
+                                    } 
+                      } 
+                  }
+                  else
+                  {
+                            cls();
+                             putstr("寻卡失败\n");
+                             bell(20);
+                     	    putstr("按清除键【CLS】退出\n");
+                			putstr("按其他任意键继续\n");
+                			uchar mykey = key(0);
+                    		if(mykey == KEY_CLS)
+                    		 {
+                    		   return 0;
+                    		 }
+                  }
+    
+          }
+     }
+
+     
+}
+int UsingNet()
+{
+    
+     int err=0 ;
     int login_num =0;
     bell(20);
     err = InitSystem();

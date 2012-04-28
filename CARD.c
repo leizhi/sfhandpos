@@ -191,10 +191,55 @@ int find_UL_ID(uchar *length,char* buffer){
     printf("find_UL RET:%d\n",RET);
     return RET;
 }
+int ReadWineNum(unsigned char* winenum)
+{
+    int err ;
+       unsigned char keya[16]={0xff,0xff,0xff,0xff,0xff,0xff};//密码 
+    uchar atq[3]={0};
+    //putstr("进入readwinenum");
+   // key(0); 
+    err = OpenCard();
+    if(err !=0)
+    {
+       putstr("打开读卡模块错误\n");
+        key(0);
+        return 1; 
+    }
+     err =InitCard();
+     cls();
+     if(err ==INITCARDSUCCESS)
+     {
+           // putstr("init  card success ");
+           // key(0);
+             err = mif_authentication(0,2,cardsn);
+                       if(err == 0)
+                       {   
+                           //  putstr("验证密码正确 ");
+                          //  key(0);
+                              err = mif_read(8,winenum);
+                              if(err != 0)
+                              {
+                                     putstr("读卡错误 ");
+                                       key(0);
+                                     return 1;
+                              }
+                              else
+                              {
+                                  return 0;
+                              }
+                       }
+                       else if ( err != 0) 
+                       {
+                            putstr("验证密码错误 ");
+                            key(0);
+                            return 1; 
+                       }
+                     
+     }
 
-int readM1(uchar *length,uchar *serial_number,char* buffer){
+}
+int readM1(uchar *length,uchar *serial_number,uchar* mybuffer){
     unsigned char mykey;
-    
     int RET = OpenCard();
     if(RET != 0)
     {
@@ -204,11 +249,14 @@ int readM1(uchar *length,uchar *serial_number,char* buffer){
     }
     RET = InitCard();
     delay(100);
-    
+
+
+    cls();
     if(RET == INITCARDSUCCESS )
     {
-    
-     RET = mif_authentication(1,1,serial_number);
+         
+        
+    RET = mif_authentication(1,1,serial_number);
      if( RET != 0)
      {
          putstr("验证密码错误");
@@ -227,9 +275,10 @@ int readM1(uchar *length,uchar *serial_number,char* buffer){
          }
          else
          {
-             
-         } 
+          return 0;
+          }
      }
+     
         
     }
     else
@@ -282,3 +331,4 @@ int readUL(uchar *length,unsigned char *serial_number,char* buffer){
     
     return 0;
 }
+
