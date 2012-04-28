@@ -13,9 +13,9 @@ char InitCard()
      char RET;
      Initialization();
      unsigned char keya[16]={0xff,0xff,0xff,0xff,0xff,0xff};//密码 
-     cls();
+    // cls();
      OpenCard();
-     putstr("正在寻卡请求...\n");
+   //  putstr("正在寻卡请求...\n");
             RET = mif_request(IDLE ,atq);//寻卡请求 IDLE为单卡模式 ALL 为多卡模式 
             if( RET != 0)
             {  
@@ -23,10 +23,10 @@ char InitCard()
             }
             else
             {
-                 putstr("寻卡请求: OK\n");
+               //  putstr("寻卡请求: OK\n");
             }
             
-            putstr("正在防止冲突...\n");
+           // putstr("正在防止冲突...\n");
              RET= mif_anticoll(0,cardsn);//防止冲突 返回卡的序列号 
             if( RET !=0)
             {
@@ -34,9 +34,9 @@ char InitCard()
             }
             else
             {
-                putstr("防止冲突：OK\n");
+              //  putstr("防止冲突：OK\n");
             } 
-            putstr("正在选卡中...\n");
+           // putstr("正在选卡中...\n");
             RET = mif_select(cardsn);//选定给点序列号的卡 
              if( RET !=0)
             {
@@ -44,10 +44,10 @@ char InitCard()
             }
             else
             {
-                putstr("选卡：OK\n");
+               // putstr("选卡：OK\n");
             }
             
-            putstr("装载密码到扇区...\n");
+          //  putstr("装载密码到扇区...\n");
             RET = mif_load_key(keya);// 将密码装入读写扇区 
             
              if( RET !=0)
@@ -56,7 +56,7 @@ char InitCard()
             }
             else
             {
-                putstr("装载密码到扇区：OK\n");
+               // putstr("装载密码到扇区：OK\n");
             } 
             return   INITCARDSUCCESS;
 }
@@ -64,13 +64,13 @@ char OpenCard()
 {
     char RET;
     Initialization();
-    cls();//清除屏幕
-    putstr("初始化读卡模块...\n");
+   // cls();//清除屏幕
+  //  putstr("初始化读卡模块...\n");
     int i = 0; 
     while(1)
          {
               RET = mif_open();
-              printf("\nOpenCardRET:%d",RET);
+            //  printf("\nOpenCardRET:%d",RET);
               if(RET != 0 ) 
               {
                      i++;
@@ -90,7 +90,7 @@ char OpenCard()
                   break;
               }
          }
-    putstr("初始化读卡模块：OK\n");
+   // putstr("初始化读卡模块：OK\n");
     return   INITCARDSUCCESS;  
 }
 
@@ -120,7 +120,7 @@ char ReadUserInformation(unsigned char* name ,unsigned char * passwd)
                   }
                   else
                   {
-                      putstr("用户名为：");
+                      //putstr("用户名为：");
                     // putstr(name);
                     // key(0);
                      // putstr("\n");
@@ -133,7 +133,7 @@ char ReadUserInformation(unsigned char* name ,unsigned char * passwd)
                   }
                   else
                   { 
-                      putstr("密码：");
+                     // putstr("密码：");
                      // putstr(passwd);
                     // putstr("\n");
                     // key(0);
@@ -179,7 +179,7 @@ int find_mifare_ID(unsigned char* buffer){
        return -2;
     }
     
-    printf("find_mifare RET:%d\n",RET);
+   // printf("find_mifare RET:%d\n",RET);
     return 0;
 }
 
@@ -188,7 +188,7 @@ int find_mifare_ID(unsigned char* buffer){
 int find_UL_ID(uchar *length,char* buffer){
     int RET = (int)ULight_findcarda(0x26,length,buffer);
     
-    printf("find_UL RET:%d\n",RET);
+   // printf("find_UL RET:%d\n",RET);
     return RET;
 }
 int ReadWineNum(unsigned char* winenum)
@@ -322,12 +322,12 @@ int readUL(uchar *length,unsigned char *serial_number,char* buffer){
     buffer[k]=0;
     
     cls();
-    putstr("酒罐号:");
-    putstr(buffer);
+    //putstr("酒罐号:");
+    //putstr(buffer);
 
     RET = mif_read(4,serial_number);
 
-    key(0);
+
     
     return 0;
 }

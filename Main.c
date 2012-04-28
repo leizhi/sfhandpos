@@ -215,11 +215,13 @@ int WithoutNet()
                                                 RET = ReadWineNum(winenum);
                                                 if(RET == 0)
                                                 {
-                                                   putstr(" ¾Æ¹ŞºÅ:");
+                                                       moveto(4,1);
+                                                   putstr("¾Æ¹ŞºÅ:");
                                                  putstr(winenum);
                                                  putstr("\n");
-                                               printf("serial_number M1");
-                                               printf(serial_number);
+                                                 moveto(6,1); 
+                                               putstr("·ÀÎ±Âë£º");
+                                               putstr(serial_number);
                                                printf("\n");
                                                  key(0); 
                                                  return 0;
@@ -242,14 +244,15 @@ int WithoutNet()
                                     {
                                            RET = readUL(&length,serial_number,read_buf);
                                            
-                                           putstr("read_buf is ");
-                                           putstr(read_buf);
-                                           putstr("\n");
-                                           putstr(serial_number);
-                                           putstr("\n");
-                            
-                                           putstr("readUL\n");
-                                           key(0);
+                                            moveto(4,1);
+                                                   putstr("¾Æ¹ŞºÅ:");
+                                                 putstr(read_buf);
+                                                 putstr("\n");
+                                                 moveto(6,1); 
+                                               putstr("·ÀÎ±Âë£º");
+                                               putstr(serial_number);
+                                               printf("\n");
+                                                 key(0); 
                                            return 0;
    
                                     } 

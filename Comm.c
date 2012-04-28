@@ -76,6 +76,6 @@ short toShort(unsigned char *buffer){
     	p++;
     }
     
-    printf("buf:%d 0x%04x\n",result,result);
+   // printf("buf:%d 0x%04x\n",result,result);
     return result;
 }

@@ -75,6 +75,7 @@ int Examine()
      uchar length=0;
     
      cls();
+     putstr("’˝‘⁄≤È—Ø£¨«Î…‘µ»...");
      moveto(1,1);
       while(1)
      {   
@@ -89,7 +90,7 @@ int Examine()
     		return -1;
         }
         cls();
-        printf("mi_ok:%d\n",MI_OK);
+       // printf("mi_ok:%d\n",MI_OK);
         
         unsigned char type[2]={0};
         
@@ -103,7 +104,7 @@ int Examine()
                
         short cardType = toShort(type);
         
-        printf("cardType:%d %04x\n",cardType,cardType);
+        //printf("cardType:%d %04x\n",cardType,cardType);
         if(RET!=0) {
            printf("\n—∞ø® ß∞‹"); 
            return -2;
@@ -115,7 +116,7 @@ int Examine()
                 printf("\nø®∂¡»°–Ú¡–∫≈ ß∞‹"); 
                 return -2;
             }
-            printf("\nSN RET:%d",RET);
+           // printf("\nSN RET:%d",RET);
             
             RET = readM1(&length,serial_number,read_buf);
 
