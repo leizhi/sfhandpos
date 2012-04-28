@@ -137,6 +137,7 @@ int main()
                                      UsingNet();
                                      cls();
                              }
+                             flag =0;
                             
                     }
                     else
