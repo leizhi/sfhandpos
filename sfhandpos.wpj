@@ -1,7 +1,7 @@
 [Project]
 FileName=sfhandpos.wpj
 Name=sfhandpos
-UnitCount=19
+UnitCount=21
 Type=0
 Ver=1
 ObjFiles=
@@ -17,7 +17,7 @@ IsCpp=0
 Icon=
 ObjectOutput=
 OverrideOutput=0
-OverrideOutputName=
+OverrideOutputName=sfhandpos.cof
 HostApplication=
 Folders=
 CommandLine=
@@ -30,7 +30,7 @@ Usebinoutfile=1
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
-CompilerSettings=
+CompilerSettings=00000000000000000000
 
 [Unit1]
 FileName=User.h
@@ -239,4 +239,34 @@ OriginalFilename=
 ProductName=
 ProductVersion=
 AutoIncBuildNr=0
+
+[Unit22]
+FileName=..\..\..\Documents and Settings\yli\×ÀÃæ\mylib\main.c
+CompileCpp=0
+Folder=sfhandpos
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit21]
+FileName=Display.c
+CompileCpp=0
+Folder=sfhandpos
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit20]
+FileName=Display.h
+CompileCpp=0
+Folder=sfhandpos
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
 

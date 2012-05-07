@@ -17,7 +17,7 @@ unsigned char LoginChoose()
          moveto(10,1);
          putstr("【 2 】: 输入登陆");
          moveto(12,1);
-         putstr("【CLS】：退出登陆");
+         putstr("【清除】：退出登陆");
 
          moveto(16,1);
          putstr("请选择"); 
@@ -68,7 +68,7 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
     int name_length=0;
     int passwd_length=0;
     int i=0;
-    putstr("正在验证信息，请稍等\n");
+    putstr("\n正在验证信息，请稍等\n");
     while(1)
     {
        if((name[i] == 0x20)||(name[i]==0x00))
@@ -162,6 +162,7 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
             
             if(RET != 0)
             {
+
                    putstr("接收错误");
                    key(0); 
                    return NETERROR;

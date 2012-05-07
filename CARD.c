@@ -60,38 +60,22 @@ char InitCard()
             } 
             return   INITCARDSUCCESS;
 }
-char OpenCard()
-{
-    char RET;
-    Initialization();
-   // cls();//清除屏幕
-  //  putstr("初始化读卡模块...\n");
-    int i = 0; 
-    while(1)
-         {
-              RET = mif_open();
-            //  printf("\nOpenCardRET:%d",RET);
-              if(RET != 0 ) 
-              {
-                     i++;
-                     if(i>0)                    //第一次打开读卡模块失败
-                     {
-                             mif_close();
-                             delay(10);
-                             if(i>1)            //第二次打开读卡模块失败
-                             {
-                                    return OPENCARDERROR; 
-                             } 
-                             
-                     } 
-              }
-              else
-              {
-                  break;
-              }
-         }
-   // putstr("初始化读卡模块：OK\n");
-    return   INITCARDSUCCESS;  
+
+char OpenCard(){
+	int RET=-1;
+	Initialization();
+	//cls();//清除屏幕
+	//putstr("初始化读卡模块...\n");
+	RET = mif_open();
+	//printf("\nOpenCardRET:%d",RET);
+	delay(500);
+	if(RET != 0 ){
+		//第一次打开读卡模块失败
+		delay(500);
+		return OPENCARDERROR;
+	}
+	// putstr("初始化读卡模块：OK\n");
+	return INITCARDSUCCESS;
 }
 
 char ReadUserInformation(unsigned char* name ,unsigned char * passwd)
@@ -147,7 +131,7 @@ char ReadUserInformation(unsigned char* name ,unsigned char * passwd)
                 cls();
                 bell(40);
                 putstr("无卡，请核对\n");
-                putstr("按清除键【CLS】退出\n");
+                putstr("按清除键退出\n");
                 putstr("按其他任意键继续\n");
                 mykey=key(0);
                if(mykey == KEY_CLS)
@@ -288,7 +272,7 @@ int readM1(uchar *length,uchar *serial_number,uchar* mybuffer){
         putstr("初始化卡错误");
         bell(40);
         putstr("无卡，请核对\n");
-        putstr("按清除键【CLS】退出\n");
+        putstr("按清除键退出\n");
         putstr("按其他任意键继续\n");
         mykey=key(0);
         if(mykey == KEY_CLS)

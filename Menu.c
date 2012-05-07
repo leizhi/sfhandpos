@@ -29,7 +29,7 @@ unsigned char  MenuChoose()
          moveto(8,1);
          putstr("【 1 】: 巡检");
          moveto(10,1);
-         putstr("【CLS】：退出登陆");
+         putstr("【清除】：退出登陆");
         
          moveto(14,1);
          putstr("请选择");
@@ -75,7 +75,7 @@ int Examine()
      uchar length=0;
     
      cls();
-     putstr("正在查询，请稍等...");
+     putstr("\n正在查询，请稍等...");
      moveto(1,1);
       while(1)
      {   
@@ -139,7 +139,7 @@ int Examine()
 			putstr("初始化卡错误");
 			bell(40);
 			putstr("无卡，请核对\n");
-			putstr("按清除键【CLS】退出\n");
+			putstr("按清除键退出\n");
 			putstr("按其他任意键继续\n");
     		if(mykey == KEY_CLS)
     		 {

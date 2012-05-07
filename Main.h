@@ -4,6 +4,7 @@
 #include "User.H"
 #include "LoginWay.H"
 #include "Menu.H"
+#include "display.h"
 
 #ifndef MAIN
 #define MAIN
