@@ -66,9 +66,18 @@ void printSC(unsigned char** buffer,int block)
      int flag;
      if(buffer==NULL || block==NULL) 
      return;
+
 	 myStr p;
+	 p=buffer;
 	 index=0;
 	 flag=0;
+	 cls();
+	 for(i=0;i<MAX_LINE;i++)
+		{
+		putstr(*p);
+		p++;
+		putch('\n');
+		}
 	 while(flag==0)
      {
      p=buffer;

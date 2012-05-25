@@ -34,16 +34,18 @@ void CloseSystem()
      err = mif_close();                    //关闭读卡模块 
 
      err = WNetTxd(exit_msg,4);
+     delay(1200);
      
      if(err !=0)
      { 
             int k =0;
             moveto(8,3);
-            putstr("关闭系统错误!");
+            putstr("\n关闭系统错误!");
             key(0);
             while(1)
             {
                err = WNetTxd(exit_msg,4);
+               delay(1200);
                if(err!=0)
                {
                   k++;
@@ -78,9 +80,9 @@ void CloseSystem()
 
 int main(){
 	uchar action =0;
-
-	while(1){
-		cls();
+	int flag=0;
+        cls();
+        while(1){
 		moveto(4,6);
 		putstr("欢迎使用");
 		moveto(6,4);
@@ -94,25 +96,47 @@ int main(){
 
 		moveto(16,1);
 		putstr("请选择");
-
-		if((action=key(0))== KEY_CLS)
+		//moveto(16,8);
+//        if((action==0x31)||(action==0x32))
+//        putch(action);
+		
+        action=key(0);
+         if(action==0x31)
+        {
+                    moveto(16,8);
+                    putch(action);
+                    flag=1;
+        }
+        else if(action==0x32)
+        {
+                    moveto(16,8);
+                    putch(action);
+                    flag=2;     
+        }
+		else if(action==KEY_CLS)
+		{
 			return 1;
-
-		moveto(16,8);
-		putch(action);
-
-		if(key(0) == KEY_ENTER){
-			if(action ==0x31){
+        }
+        else if((action == KEY_ENTER)&&(flag!=0))
+        {
+			if(flag==1)
+            {
 				if(WithoutNet()!=0)
-					continue;
-			}else if(action ==0x32){
+				continue;
+			}
+            else if(flag==2)
+            {
 				UsingNet();
 				cls();
-			}else{
+			}
+            else
+            {
 				bell(20);
 				continue;
 			}
-		}else{
+		}
+        else
+        {
 			bell(20);
 			continue;
 		}
@@ -131,15 +155,15 @@ int WithoutNet(){
 	unsigned char type[2]={0};
 	while(1) {
 		RET = OpenCard();
+		delay(3000);
 		if (RET !=0){
 			putstr("\n打开读卡模块失败\n");
 			putstr("按任意键返回\n");
 			key(0);
 			return -1;
 		}
-
-		delay(500);
 		RET = mif_request(IDLE ,type);
+		delay(2000);
 		//printf("\mif_request RET:%d",RET); 
 		//key(0);
 		if (RET !=0){
@@ -148,6 +172,7 @@ int WithoutNet(){
 			putstr("按任意键返回\n");
 			bell(20);
 			key(0);
+			cls();
 			return -2;
 		}
 
@@ -182,12 +207,12 @@ int WithoutNet(){
 				cls();
 				RET = ReadWineNum(winenum);
 				if (RET !=0){
-					putstr("读酒罐号出错\n");
+					putstr("\n读标识号出错\n");
 					key(0);
+					cls();
 					return -5;
 				}
-				moveto(8,4);
-				putstr("酒罐号:");
+				putstr("\n标识号:\n");
 				putstr(winenum);
 				putstr("\n");
 				//moveto(6,1); 
@@ -195,27 +220,30 @@ int WithoutNet(){
 				//putstr(serial_number);
 				//printf("\n");
 				key(0); 
+				cls();
 				return 0;
 			}else{
 				putstr("read m1 err\n");
 			}
 		}else if(cardType==0x44){
-			RET = readUL(&length,serial_number,read_buf);
+            memset(read_buf,0,16);
+			RET = readUL(&length,serial_number);
 			if (RET !=0){
-				putstr("读酒罐号出错\n");
+				putstr("\n读标识号出错\n");
 				key(0);
+				cls();
 				return -6;
 			}
-
-			moveto(8,4);
-			putstr("酒罐号:");
-			putstr(read_buf);
+			putstr("\n标识号:\n");
+			putstr(serial_number);
 			putstr("\n");
+			
 			//moveto(6,1); 
 			//putstr("防伪码：");
 			//putstr(serial_number);
 			//printf("\n");
 			key(0); 
+			cls();
 			return 0;
 		}
 	}//end while
@@ -251,9 +279,10 @@ int UsingNet()
                         err = ReadUserInformation(username,password);
                         if(err != 0) //无卡退出 
                         {
-                              return 1;
+                              cls(); 
+                              continue;
                         }
-                        cls();
+                        
                 }
                 if(err ==2) 
                     {
@@ -309,7 +338,7 @@ int UsingNet()
       }
       else if(choose_value == VIEW)
       {
-           putstr("\n正在查询请稍等");
+           putstr("\n正在查询，请稍等...");
            Examine();
            delay(500);
       }

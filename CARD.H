@@ -30,6 +30,6 @@ int find_UL_ID(uchar *length,char* buffer);
 
 int readM1(uchar *length,uchar *cardnum,uchar* buffer);
 
-int readUL(uchar *length,unsigned char *serial_number,char* buffer);
+int readUL(uchar *length,unsigned char *serial_number);
 
 #endif

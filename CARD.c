@@ -68,10 +68,10 @@ char OpenCard(){
 	//putstr("初始化读卡模块...\n");
 	RET = mif_open();
 	//printf("\nOpenCardRET:%d",RET);
-	delay(500);
+	delay(3000);
 	if(RET != 0 ){
 		//第一次打开读卡模块失败
-		delay(500);
+		delay(1000);
 		return OPENCARDERROR;
 	}
 	// putstr("初始化读卡模块：OK\n");
@@ -92,7 +92,7 @@ char ReadUserInformation(unsigned char* name ,unsigned char * passwd)
               RET = mif_authentication(1,1,cardsn);//验证扇区密码
               if( RET != 0)
               {
-                  putstr("验证扇区密码错误");
+                  putstr("\n验证扇区密码错误");
                   return 1; 
               }
               else
@@ -100,7 +100,7 @@ char ReadUserInformation(unsigned char* name ,unsigned char * passwd)
                   RET = mif_read(5,name);
                   if( RET != 0 )
                   {
-                      putstr("read name RET\n");
+                      putstr("\n用户名读取错误\n");
                   }
                   else
                   {
@@ -112,7 +112,7 @@ char ReadUserInformation(unsigned char* name ,unsigned char * passwd)
                   RET = mif_read(6,passwd);
                   if( RET != 0)
                   {
-                      putstr("read passwd error");
+                      putstr("密码读取错误");
                       key(0);
                   }
                   else
@@ -130,7 +130,7 @@ char ReadUserInformation(unsigned char* name ,unsigned char * passwd)
           {
                 cls();
                 bell(40);
-                putstr("无卡，请核对\n");
+                putstr("\n无卡，请核对\n");
                 putstr("按清除键退出\n");
                 putstr("按其他任意键继续\n");
                 mykey=key(0);
@@ -150,7 +150,7 @@ int find_mifare_ID(unsigned char* buffer){
     unsigned char type[3] = {0};
     
     int RET = mif_request(IDLE ,type);
-    
+    delay(3000);
     if(RET!=0) {
        printf("\n无M1卡");
        return -1;
@@ -185,7 +185,7 @@ int ReadWineNum(unsigned char* winenum)
     err = OpenCard();
     if(err !=0)
     {
-       putstr("打开读卡模块错误\n");
+       putstr("\n打开读卡模块错误\n");
         key(0);
         return 1; 
     }
@@ -203,7 +203,7 @@ int ReadWineNum(unsigned char* winenum)
                               err = mif_read(8,winenum);
                               if(err != 0)
                               {
-                                     putstr("读卡错误 ");
+                                     putstr("\n读卡错误,请按任意键返回");
                                        key(0);
                                      return 1;
                               }
@@ -227,12 +227,12 @@ int readM1(uchar *length,uchar *serial_number,uchar* mybuffer){
     int RET = OpenCard();
     if(RET != 0)
     {
-        putstr("打开读卡模块错误\n");
+        putstr("\n打开读卡模块错误\n");
         key(0);
         return -2;
     }
     RET = InitCard();
-    delay(100);
+    delay(500);
 
 
     cls();
@@ -243,7 +243,7 @@ int readM1(uchar *length,uchar *serial_number,uchar* mybuffer){
     RET = mif_authentication(1,1,serial_number);
      if( RET != 0)
      {
-         putstr("验证密码错误");
+         putstr("\n验证密码错误");
          key(0);
          return -3; 
      }
@@ -254,7 +254,7 @@ int readM1(uchar *length,uchar *serial_number,uchar* mybuffer){
     
          if( RET != 0)
          {
-             putstr("读取数据错误");
+             putstr("\n读取数据错误");
              key(0);
          }
          else
@@ -269,7 +269,7 @@ int readM1(uchar *length,uchar *serial_number,uchar* mybuffer){
     {
         
         cls();
-        putstr("初始化卡错误");
+        putstr("\n初始化卡错误");
         bell(40);
         putstr("无卡，请核对\n");
         putstr("按清除键退出\n");
@@ -284,26 +284,24 @@ int readM1(uchar *length,uchar *serial_number,uchar* mybuffer){
     RET = mif_close();
     if(RET != 0)
     {
-        putstr("mif_close RET in examing\n");
+        putstr("\nmif_close RET in examing\n");
         key(0);
         return -1;
     }
-    delay(100);
+    delay(500);
     
     return 0;
 }
 
-int readUL(uchar *length,unsigned char *serial_number,char* buffer){
+int readUL(uchar *length,unsigned char *serial_number){
     
     int RET = -1;
     
     RET = find_UL_ID(&length,serial_number);
         
-    RET = mif_read(8,buffer);
+
     
-    int k=0;
-    for(k=4;k<16;k++)
-    buffer[k]=0;
+    
     
     cls();
     //putstr("酒罐号:");

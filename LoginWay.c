@@ -68,7 +68,7 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
     int name_length=0;
     int passwd_length=0;
     int i=0;
-    putstr("\n正在验证信息，请稍等\n");
+    putstr("\n正在验证信息，请稍等...\n");
     while(1)
     {
        if((name[i] == 0x20)||(name[i]==0x00))
@@ -138,6 +138,7 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
        while(1)
        { 
            RET= WNetTxd(send_buffer,len);
+           delay(2000);
            if(RET !=0 )
            {
                   num++;
@@ -159,7 +160,7 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
             memset(recv_buffer,0,3000);
             unsigned short recv_len;
             RET = WNetRxd(recv_buffer,&recv_len,10000);
-            
+            delay(2000);
             if(RET != 0)
             {
 

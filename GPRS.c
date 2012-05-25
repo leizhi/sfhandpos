@@ -23,7 +23,7 @@ int InitGPRS()
   putstr(NET_PORT);
   key(0);
   */
-  putstr("\n初始化,请稍候...\n");
+  putstr("\n初始化，请稍候...\n");
   putstr("正在打开GPRS模块\n");
   while(1)
    { 
@@ -175,8 +175,7 @@ int InitGPRS()
     if( RET !=0)
     {   
         cls(); 
-        moveto(8,3);
-        putstr("网络出现故障 请检查");
+        putstr("\n网络出现故障，请检查");
         key(0);
         return NETCONNECTERROR;
     } 
@@ -201,8 +200,6 @@ void search_card(uchar *sealNo)
      memset(send_buffer,0,100);
      sealNo_length=0;
      
-     cls();
-        putstr("\n正在查询，请稍等\n"); 
                          //发送数据到服务器
     // printf("send buffer:%s\n",send_buffer);
      
@@ -215,7 +212,7 @@ void search_card(uchar *sealNo)
      while(*sealNo!=0x00){
          if(*sealNo== 0x00) {
                       moveto(8,3);
-                 putstr("查询卡错误");       
+                 putstr("查询卡错误"); 
                  break;
              }
              
@@ -230,10 +227,8 @@ void search_card(uchar *sealNo)
       *p = '#';
        p++;
       *p='\n';
-      putstr("完成封装发送数据\n");  
+//      putstr("完成封装发送数据\n");  
      
-     // putstr(send_buffer);
-      //key(0);
       
       p=send_buffer;
       k=0;
@@ -252,18 +247,19 @@ void search_card(uchar *sealNo)
         // putstr("\nend_buffer:");
         // putstr(send_buffer);
          RET = WNetTxd(send_buffer,k);
-         //printf("\nsender_buffer_error:%d",RET);
-        // key(0);
+         delay(2000);
+//         printf("\nsender_buffer_error:%d",RET);
+//        key(0);
                  
          if( RET == 0)
          {
-             putstr("发送数据成功\n");
+//             putstr("\n发送数据成功\n");
              break; 
          }
          else
          {
                 cls();
-                putstr("发送失败，再次尝试发送\n");
+                putstr("\n发送失败，再次尝试发送\n");
                 key(0);
                 send_num++;
          }
@@ -277,7 +273,7 @@ void search_card(uchar *sealNo)
       }
 
         //然后接受返回信息 
-        cls();
+        
 
         unsigned char recv_buffer[3000];
         memset(recv_buffer,0,3000);
@@ -288,19 +284,19 @@ void search_card(uchar *sealNo)
         int blo;
         myStr pStr;
         
-       // putstr("准备接收数据\n");
+       putstr("\n准备接收数据，请稍等...\n");
         RET = WNetRxd(recv_buffer,&recv_len,10000);
-       // putstr("接收数据完成\n");
+        delay(2000);
+//       putstr("接收数据完成\n");
        // printf("\nrecv_len:%d",recv_len);
-        //putstr(recv_buffer);
-        //printf("\nRET:%d",RET);
+       //putstr(recv_buffer);
+       //printf("\nRET:%d",RET);
         
-       // key(0);
         
         if(RET != 0)
         {
           cls();
-          putstr("an RET in recv\n");
+          putstr("\n接收数据错误，请按任意键返回！\n");
           key(0);
 
           return ;
@@ -336,7 +332,7 @@ void search_card(uchar *sealNo)
         {
             moveto(8,3);
            putstr("查询无该记录！");
-           key(0); 
+           key(0);
            
         }
     }

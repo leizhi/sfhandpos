@@ -79,24 +79,24 @@ int Examine()
      moveto(1,1);
       while(1)
      {   
-		unsigned char serial_number[32]={0};      
-        unsigned char read_buf[16]={0};
-        
-		if(MI_OK!=mif_open())
-        {
-    		cls();
-    		putstr("\n inital error");
-    		key(0);
-    		return -1;
-        }
-        cls();
+	unsigned char serial_number[32]={0};
+	unsigned char read_buf[16]={0};
+	RET = mif_open();
+	delay(3000);
+	if(RET!=0){
+		cls();
+		putstr("\n inital error");
+		key(0);
+		return -1;
+	}
        // printf("mi_ok:%d\n",MI_OK);
-        
         unsigned char type[2]={0};
-        
         RET = mif_request(IDLE ,type);
+        delay(2000);
         if(RET!=0) {
-           printf("\n无卡");
+           cls();
+           putstr("\n无卡");
+           key(0);
            return -1;
         }
                 
@@ -106,14 +106,16 @@ int Examine()
         
         //printf("cardType:%d %04x\n",cardType,cardType);
         if(RET!=0) {
-           printf("\n寻卡失败"); 
+           putstr("\n寻卡失败"); 
+           key(0);
            return -2;
         }
 
 		if(cardType==0x04){
             RET = mif_anticoll(0, serial_number);
             if(RET!=0) {
-                printf("\n卡读取序列号失败"); 
+                putstr("\n卡读取序列号失败"); 
+                key(0);
                 return -2;
             }
            // printf("\nSN RET:%d",RET);
@@ -123,7 +125,7 @@ int Examine()
             //putstr("readM1\n");
             //key(0);
         }else if(cardType==0x44){
-               RET = readUL(&length,serial_number,read_buf);
+               RET = readUL(&length,serial_number);
 
                //putstr("readUL\n");
                //key(0);
@@ -136,17 +138,19 @@ int Examine()
 		if(RET==-1)
 		{
 			cls();
-			putstr("初始化卡错误");
+			putstr("\n初始化卡错误");
 			bell(40);
 			putstr("无卡，请核对\n");
 			putstr("按清除键退出\n");
 			putstr("按其他任意键继续\n");
+			key(0);
     		if(mykey == KEY_CLS)
     		 {
     		   return 0;
     		 }
 		}else{
 			search_card(serial_number);
+			return 0;
 		}
 
   }
