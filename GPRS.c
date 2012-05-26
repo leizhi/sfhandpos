@@ -188,152 +188,135 @@ int InitGPRS()
      
 }
 
-void search_card(uchar *sealNo)
-{                 
-     unsigned char send_buffer[100]={0};
-     unsigned char *p=send_buffer;
-     
-     int sealNo_length;
-     int k;
-     int RET;
+void search_card(uchar *sealNo){
+	unsigned char send_buffer[100]={0};
+	unsigned char *p=send_buffer;
 
-     memset(send_buffer,0,100);
-     sealNo_length=0;
-     
-                         //发送数据到服务器
-    // printf("send buffer:%s\n",send_buffer);
-     
-     *p='*';
-     p++;
-     
-     *p='2';
-     p++;
-     
-     while(*sealNo!=0x00){
-         if(*sealNo== 0x00) {
-                      moveto(8,3);
-                 putstr("查询卡错误"); 
-                 break;
-             }
-             
-        *p=*sealNo;
-        
-        p++;
-        sealNo++;
-     }
-     
-     
-     //                      
-      *p = '#';
-       p++;
-      *p='\n';
-//      putstr("完成封装发送数据\n");  
-     
-      
-      p=send_buffer;
-      k=0;
-      while(*p!=0){
-          p++;
-          k++;    
-      }
+	int sealNo_length;
+	int k;
+	int RET;
 
-     // printf("k:%d",k);
-     // key(0);
-      
-      unsigned char send_num =0;
-      while(send_num<2)
-      { 
-         cls();
-        // putstr("\nend_buffer:");
-        // putstr(send_buffer);
-         RET = WNetTxd(send_buffer,k);
-         delay(2000);
-//         printf("\nsender_buffer_error:%d",RET);
-//        key(0);
-                 
-         if( RET == 0)
-         {
-//             putstr("\n发送数据成功\n");
-             break; 
-         }
-         else
-         {
-                cls();
-                putstr("\n发送失败，再次尝试发送\n");
-                key(0);
-                send_num++;
-         }
-      }
-              
-      if(send_num ==2)
-      {
-              putstr("发送数据两次错误\n");
-              key(0);
-              return ;
-      }
+	memset(send_buffer,0,100);
+	sealNo_length=0;
 
-        //然后接受返回信息 
-        
+	//发送数据到服务器
+	// printf("send buffer:%s\n",send_buffer);
 
-        unsigned char recv_buffer[3000];
-        memset(recv_buffer,0,3000);
-        unsigned short recv_len;
-        unsigned char delimiter=' ';
-        unsigned char query_buffer[3000];
-        memset(query_buffer,0,3000);
-        int blo;
-        myStr pStr;
-        
-       putstr("\n准备接收数据，请稍等...\n");
-        RET = WNetRxd(recv_buffer,&recv_len,10000);
-        delay(2000);
-//       putstr("接收数据完成\n");
-       // printf("\nrecv_len:%d",recv_len);
-       //putstr(recv_buffer);
-       //printf("\nRET:%d",RET);
-        
-        
-        if(RET != 0)
-        {
-          cls();
-          putstr("\n接收数据错误，请按任意键返回！\n");
-          key(0);
+	*p='*';
+	p++;
 
-          return ;
-        }
-        else
-        {
-        cls();
-            
-        int j = 0;
-        int k = 0;
-        for(;k<recv_len;k++)
-        {
-           if(recv_buffer[k]== ',')
-           {
-             break;
-           }
-           query_buffer[k]= recv_buffer[k];
-        }
-        for(;j<recv_len;j++)
-        {
-            recv_buffer[j]= recv_buffer[k+1];
-            k++;                   
-        }
-        if(strcmp(query_buffer,"true")==0)
-        {
-           putstr("\n查询成功，请按任意键继续！");
-           pStr=cutting(recv_buffer,delimiter);
-           blo = block(recv_buffer,delimiter);
-           printSC(pStr,blo);
-           key(0);
-        }
-        else
-        {
-            moveto(8,3);
-           putstr("查询无该记录！");
-           key(0);
-           
-        }
-    }
+	*p='2';
+	p++;
+
+	*p=',';
+	p++;
+
+	while(*sealNo!=0x00){
+		if(*sealNo== 0x00) {
+			moveto(8,3);
+			putstr("查询卡错误"); 
+			break;
+		}
+
+		*p=*sealNo;
+
+		p++;
+		sealNo++;
+	}
+
+
+	*p = '#';
+	p++;
+	*p='\n';
+	//putstr("完成封装发送数据\n");  
+	p=send_buffer;
+	k=0;
+	while(*p!=0){
+		p++;
+		k++;
+	}
+
+	// printf("k:%d",k);
+	// key(0);
+
+	unsigned char send_num =0;
+	while(send_num<2){ 
+		cls();
+		// putstr("\nend_buffer:");
+		// putstr(send_buffer);
+		RET = WNetTxd(send_buffer,k);
+		delay(2000);
+		//printf("\nsender_buffer_error:%d",RET);
+		//key(0);
+
+		if( RET == 0){
+			//putstr("\n发送数据成功\n");
+			break; 
+		}else{
+			cls();
+			putstr("\n发送失败，再次尝试发送\n");
+			key(0);
+			send_num++;
+		}
+	}
+
+	if(send_num ==2){
+		putstr("发送数据两次错误\n");
+		key(0);
+		return ;
+	}
+
+	//然后接受返回信息 
+	unsigned char recv_buffer[3000];
+	memset(recv_buffer,0,3000);
+	unsigned short recv_len;
+	unsigned char delimiter=',';
+	unsigned char query_buffer[3000];
+	memset(query_buffer,0,3000);
+	int blo;
+	myStr pStr;
+	unsigned char buffer[2048]={0};
+	
+	putstr("\n准备接收数据，请稍等...\n");
+	RET = WNetRxd(recv_buffer,&recv_len,10000);
+	delay(2000);
+	//putstr("接收数据完成\n");
+	//printf("\nrecv_len:%d",recv_len);
+	//putstr(recv_buffer);
+	//printf("\nRET:%d",RET);
+
+	if(RET != 0){
+		cls();
+		putstr("\n接收数据错误，请按任意键返回！\n");
+		key(0);
+		return ;
+	}
+
+	cls();
+	unsigned char result='N';
+	int count = strlen(recv_buffer);
+
+	if(count<5){
+		putstr("网络通信错误\n");
+		key(0);
+		return ;
+	}
+
+	result=recv_buffer[1];
+	if(result=='0'){
+		//putstr("\n查询成功，请按任意键继续！");
+		int i=0;
+		for(i=5;i<count-1;i++){
+			buffer[i-5]=recv_buffer[i];
+		}
+
+		pStr=cutting(buffer,delimiter);
+		blo = block(buffer,delimiter);
+		printSC(pStr,blo);
+		key(0);
+	}else{
+		moveto(8,3);
+		putstr("查询无该记录！");
+		key(0);
+	}
 }

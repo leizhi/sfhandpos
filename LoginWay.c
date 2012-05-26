@@ -1,9 +1,9 @@
-#include<hspos.h>
-#include<gprs_api.h>
-#include"LoginWay.h" 
-#include"GPRS.h"
-unsigned char LoginChoose()
-{
+#include "hspos.h"
+#include "gprs_api.h"
+#include "LoginWay.h" 
+#include "GPRS.h"
+#include "string.h"
+unsigned char LoginChoose(){
          unsigned char key_value;
          unsigned char choose;
          unsigned char flag = 0;
@@ -21,8 +21,7 @@ unsigned char LoginChoose()
 
          moveto(16,1);
          putstr("请选择"); 
-         while(1)
-         {
+         while(1){
                  key_value = key(0);
                  if(key_value == KEY_CLS)
                  {
@@ -110,6 +109,9 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
        len++;
        send_buffer[len]='1';
        len++;
+       send_buffer[len]=',';
+       len++;
+       
        int m=0;
        for(;m<name_length;m++)
        {
@@ -155,49 +157,38 @@ int CheckUser(unsigned char* name ,unsigned char* passwd)
            }
        }
      
-            //接收验证信息 
-            unsigned char recv_buffer[3000];
-            memset(recv_buffer,0,3000);
-            unsigned short recv_len;
-            RET = WNetRxd(recv_buffer,&recv_len,10000);
-            delay(2000);
-            if(RET != 0)
-            {
+	//接收验证信息 
+	unsigned char recv_buffer[3000];
+	memset(recv_buffer,0,3000);
+	unsigned short recv_len;
+	RET = WNetRxd(recv_buffer,&recv_len,10000);
+	delay(2000);
+	if(RET != 0){
+		putstr("接收错误");
+		key(0); 
+		return NETERROR;
+	}else{
+		//判断返回信息 
+		// putstr("接收数据为：");
+		unsigned char login='N';
+		int count = strlen(recv_buffer);
 
-                   putstr("接收错误");
-                   key(0); 
-                   return NETERROR;
-            } 
-            else
-            {
-                //判断返回信息 
-               // putstr("接收数据为：");
-          
-                int k =0;
-                unsigned char check_buffer[30];
-                memset(check_buffer,0,30);
-                for(;k<recv_len;k++)
-                {
-                      if(recv_buffer[k]!=',')
-                      {
-                         check_buffer[k]= recv_buffer[k];
-                      }            
-                      else
-                      {
-                          break;
-                      }
-                } 
-                if(strcmp(check_buffer,"true")==0)
-                {
-                    return CHECKSUCCESS;
-                }
-                else
-                {
-                    putstr("用户名或密码错误\n");
-                    key(0);
-                    return NETERROR;
-                }
-                
-            } 
+		printf("count:%d",count);
+		if(count<3){
+			putstr("网络通信错误\n");
+			key(0);
+			return NETERROR;
+		}
+
+		login=recv_buffer[1];
+
+		if(login=='0'){
+			return CHECKSUCCESS;
+		}else{
+			putstr("用户名或密码错误\n");
+			key(0);
+			return NETERROR;
+		}
+	}
  //   return  CHECKSUCCESS;
 }
