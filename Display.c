@@ -84,12 +84,13 @@ void printSC(unsigned char** buffer,int block)
      switch(inkey=key(0))
      {
         case 0x82:
-        cls();
+        return;
+        /*cls();
         flag++;
         moveto(8,3);
         putstr("请按清除返回查询！");
         break;
-        
+        */
 		case 0x8E:
         cls();  
         index--;

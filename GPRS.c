@@ -293,7 +293,7 @@ void search_card(uchar *sealNo){
 	}
 
 	cls();
-	unsigned char result='N';
+	char result='N';
 	int count = strlen(recv_buffer);
 
 	if(count<5){
@@ -313,7 +313,17 @@ void search_card(uchar *sealNo){
 		pStr=cutting(buffer,delimiter);
 		blo = block(buffer,delimiter);
 		printSC(pStr,blo);
-		key(0);
+		//key(0);
+	}else if(result=='1'){
+		int i=0;
+		for(i=3;i<count-1;i++){
+			buffer[i-5]=recv_buffer[i];
+		}
+
+		pStr=cutting(buffer,delimiter);
+		blo = block(buffer,delimiter);
+		printSC(pStr,blo);
+		//key(0);
 	}else{
 		moveto(8,3);
 		putstr("查询无该记录！");
