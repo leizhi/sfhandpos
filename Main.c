@@ -33,7 +33,11 @@ void CloseSystem(){
 	//key(0);
 	
 	RET = WNetTxd(exit_msg,strlen(exit_msg));
-	delay(3600000);
+
+	cls();
+	putstr("正在退出系统");
+
+	delay(36000000);
 
 	if(RET !=0) {
 		moveto(8,3);
@@ -48,10 +52,6 @@ void CloseSystem(){
 		}
 	}
 
-	cls();
-	putstr("正在退出系统");
-	//key(0);
-	
 	RET =WNetIPClose("1",2000);
 	delay(2400);
 
