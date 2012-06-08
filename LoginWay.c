@@ -3,62 +3,62 @@
 #include "LoginWay.h" 
 #include "GPRS.h"
 #include "string.h"
-unsigned char LoginChoose(){
-         unsigned char key_value;
-         unsigned char choose;
-         unsigned char flag = 0;
-         cls();
-         moveto(4,6);
-         putstr("欢迎使用");
-         moveto(6,4);
-         putstr("请选择登陆方式");
-         moveto(8,1);
-         putstr("【 1 】: 刷卡登陆");
-         moveto(10,1);
-         putstr("【 2 】: 输入登陆");
-         moveto(12,1);
-         putstr("【清除】：退出登陆");
+#include "User.h"
 
-         moveto(16,1);
-         putstr("请选择"); 
-         while(1){
-                 key_value = key(0);
-                 if(key_value == KEY_CLS)
-                 {
-                       return LOGINCANCLE;    
-                 }
-                 else if(key_value == KEY_ENTER)
-                         {
-                            if( flag == 0)//直接按确认键
-                            {
-                                bell(20); 
-                            }    
-                            else
-                            {
-                                return choose;
-                            }
-                         } 
-                         else if((key_value == 0x31)||(key_value == 0x32))
-                                         {
-                                                    choose = key_value;
-                                                    moveto(16,8);
-                                                    putch(choose);
-                                                    if(key_value == 0x31)
-                                                    choose = LOGINBYCARD;
-                                                    else
-                                                    {
-                                                        choose = LOGINBYINPUT;
-                                                    }
-                                                    flag =1;
-                                         }
-                                         else
-                                         {
-                                             bell(20);
-                                         }
-                         
-                
-         }
-         
+unsigned char LoginChoose(){
+	int RET=-1 ;
+	unsigned char key_value;
+	unsigned char choose;
+
+	memset(username,0,20);
+	memset(password,0,20);
+
+	cls();
+	while(1){
+		moveto(4,6);
+		putstr("欢迎使用");
+		moveto(6,4);
+		putstr("请选择登陆方式");
+		moveto(8,1);
+		putstr("【 1 】: 刷卡登陆");
+		moveto(10,1);
+		putstr("【 2 】: 输入登陆");
+		moveto(12,1);
+		putstr("【清除】：退出登陆");
+
+		moveto(16,1);
+		putstr("请选择");
+
+		key_value = key(0);
+
+		if(key_value == KEY_CLS){
+			return -1;
+		}else if((key_value == 0x31)||(key_value == 0x32)){
+			choose = key_value;
+			moveto(16,8);
+			putch(choose);
+		}else if(key_value == KEY_ENTER){
+			if(choose == 0x31){
+				cls();
+				putstr("\n刷卡登陆");
+				RET = ReadUserInformation(username,password);
+				if(RET != 0){ //无卡循环等待
+					cls(); 
+					continue;
+				}
+				//验证用户信息
+				RET = CheckUser(username,password);
+				if(RET==0) return 0;
+			}
+
+			if(choose ==0x32) {
+				cls();
+				putstr("输入登陆");
+				GetUserInformation();
+			}
+			cls();
+		}
+	}
 } 
 
 int CheckUser(unsigned char* name ,unsigned char* passwd)

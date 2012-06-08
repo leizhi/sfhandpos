@@ -1,7 +1,6 @@
 #include "NetSetting.h"
 #include "GPRS.H"
 #include "CARD.H"
-#include "User.H"
 #include "LoginWay.H"
 #include "Menu.H"
 #include "display.h"

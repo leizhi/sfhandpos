@@ -10,6 +10,6 @@ typedef unsigned char (*myStr)[128];
 
 int block(unsigned char *begin,unsigned char delimiter);
 char **cutting(unsigned char *begin,unsigned char delimiter);
-void printSC(unsigned char** buffer,int block);
+int printSC(unsigned char** buffer,int block);
 
 #endif

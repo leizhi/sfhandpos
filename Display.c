@@ -58,84 +58,68 @@ char **cutting(unsigned char *begin,unsigned char delimiter)
 	return result;
 }
 
-void printSC(unsigned char** buffer,int block)
-{
-     unsigned char inkey;
-     int index;
-     int i;
-     int flag;
-     if(buffer==NULL || block==NULL) 
-     return;
+int printSC(unsigned char** buffer,int block){
+	unsigned char inkey;
+	int index;
+	int i;
+	int flag;
+	if(buffer==NULL || block==NULL) 
+		return -1;
 
 	 myStr p;
 	 p=buffer;
 	 index=0;
 	 flag=0;
 	 cls();
-	 for(i=0;i<MAX_LINE;i++)
-		{
+	 for(i=0;i<MAX_LINE;i++){
 		putstr(*p);
 		p++;
 		putch('\n');
-		}
-	 while(flag==0)
-     {
-     p=buffer;
-     switch(inkey=key(0))
-     {
-        case 0x82:
-        return;
-        /*cls();
-        flag++;
-        moveto(8,3);
-        putstr("请按清除返回查询！");
-        break;
-        */
-		case 0x8E:
-        cls();  
-        index--;
-		if(index<1)
-        {
-        index=0;
-        }
-		p+=index;
-	    for(i=0;i<MAX_LINE;i++)
-		{
-		putstr(*p);
-		p++;
-		putch('\n');
-		}
-        break;
+	}
+	 while(flag==0){
+		p=buffer;
+		switch(inkey=key(0)){
+			case 0x82:
+				return;
+			case 0x8E:
+				cls();  
+				index--;
+				if(index<1){
+					index=0;
+				}
+				p+=index;
+				for(i=0;i<MAX_LINE;i++){
+					putstr(*p);
+					p++;
+					putch('\n');
+				}
+				break;
 		
-		case 0x8F:
-        cls();
-        index++;
-		if(index>block-1)
-        {
-		index=block-1;
-        }
-		p+=index;
-	    for(i=0;i<MAX_LINE;i++)
-		{
-		putstr(*p);
-		p++;
-		putch('\n');
-		}
-		break;
-		
-        case 0x8D:
-        cls();
-        p+=index;
-        for(i=0;i<MAX_LINE;i++)
-		{
-		putstr(*p);
-		p++;
-		putch('\n');
-		}
-		break;
+			case 0x8F:
+				cls();
+				index++;
+				if(index>block-1){
+					index=block-1;
+				}
+				p+=index;
+				for(i=0;i<MAX_LINE;i++){
+					putstr(*p);
+					p++;
+					putch('\n');
+				}
+				break;
 
-		default:
-        break;
-    }
-    }
+			case 0x8D:
+				cls();
+				p+=index;
+				for(i=0;i<MAX_LINE;i++){
+					putstr(*p);
+					p++;
+					putch('\n');
+				}
+				break;
+			default:
+				break;
+		}
+	}
 }

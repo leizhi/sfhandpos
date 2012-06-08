@@ -1,4 +1,4 @@
-#include<hspos.h>
+#include "hspos.h"
 #ifndef USER
 #define USER
 unsigned char username[20] ;        //用来存储用户名

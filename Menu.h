@@ -3,7 +3,7 @@
 #define MENU
 #define                 VIEW            1
 #define                 CLS             2
-unsigned char  MenuChoose();
+int MenuChoose();
 int Examine();
 unsigned char cardnum[40];
 #endif

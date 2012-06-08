@@ -188,13 +188,13 @@ int InitGPRS()
      
 }
 
-void search_card(uchar *sealNo){
+int search_card(uchar *sealNo){
 	unsigned char send_buffer[100]={0};
 	unsigned char *p=send_buffer;
 
 	int sealNo_length;
 	int k;
-	int RET;
+	int RET=-1;
 
 	memset(send_buffer,0,100);
 	sealNo_length=0;
@@ -312,7 +312,7 @@ void search_card(uchar *sealNo){
 
 		pStr=cutting(buffer,delimiter);
 		blo = block(buffer,delimiter);
-		printSC(pStr,blo);
+		RET=printSC(pStr,blo);
 		//key(0);
 	}else if(result=='1'){
 		int i=0;
@@ -329,4 +329,5 @@ void search_card(uchar *sealNo){
 		putstr("查询无该记录！");
 		key(0);
 	}
+	return 0;
 }

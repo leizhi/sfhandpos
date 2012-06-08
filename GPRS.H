@@ -27,7 +27,7 @@
 unsigned char signal[8];
 int InitGPRS(); 
 
-void search_card(uchar *sealNo);
+int search_card(uchar *sealNo);
 #endif
 
 
